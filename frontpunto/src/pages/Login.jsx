@@ -38,7 +38,6 @@ const Login = () => {
                 setUser(null);
                 setIsAuthenticated(false);
             }
-            console.log({response});
         }catch (e) {
             console.log("error", {e});
         }

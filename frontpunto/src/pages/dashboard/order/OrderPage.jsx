@@ -6,11 +6,14 @@ import useUserStore from "../../../store/useUserStore.jsx";
 import useProducts from "../../../hooks/useProducts.js";
 import useOrder from "../../../hooks/useOrder.js";
 import Input from "../../../components/Input.jsx";
+import ProductList from "../../../components/ProductList.jsx";
+import SimpleProductsTable from "../../../components/SimpleProductsTable.jsx";
 
 const OrderPage = () => {
     const {token} = useUserStore(state => state);
+    const [trigger, setTrigger] = useState(0);
     const {orderId} = useParams();
-    const {order} = useOrder(orderId)
+    const {order} = useOrder(orderId, trigger);
     const navigate = useNavigate();
     const [search, setSearch] = useState({value: "", error: false, type: "text", placeholder: "Buscar producto"})
     const {products} = useProducts(search.value);
@@ -21,6 +24,7 @@ const OrderPage = () => {
             token,
             data: {productId}
         });
+        setTrigger(prev => prev + 1);
     }
 
     if(!order) return <div>Cargando</div>
@@ -30,47 +34,34 @@ const OrderPage = () => {
     }}>
         <div className="w-full flex h-full">
             <div className="flex flex-col gap-4 flex-1 px-8">
-                <div>
-                    <div className="flex gap-4 items-center">
-                        <span className="text-2xl">Orden #{orderId}</span>
-                        <span className="text-2xl font-bold">{order.order_name}</span>
+                <div className="flex gap-4 items-center">
+                    <span className="text-2xl">Orden #{orderId}</span>
+                    <span className="text-2xl font-bold">{order.order_name}</span>
+                </div>
+                <ProductList onClickProduct={async (product) => {
+                    await addProduct(product.id)
+                }}/>
+            </div>
+            <div className="min-w-[400px] bg-white h-full flex flex-col">
+                <SimpleProductsTable products={order.products} />
+                <div className="w-full mt-auto border-t-1
+                    flex
+                    flex-col
+                    gap-4
+                    border-dashed border-gray-400 py-2 px-1">
+                    <div className="flex items-center justify-between">
+                        <span className="font-bold">Total</span>
+                        <span className="text-lg">${order.total}</span>
                     </div>
                     <div>
-                        <Input
-                            input={search}
-                            sty="search"
-                            onChange={(input) => {setSearch(input)}} />
+                        <button className="
+                        w-full
+                        hover:cursor-pointer
+                        hover:opacity-75
+                        bg-black text-white p-4 flex justify-center
+                        items-center">Pagar</button>
                     </div>
                 </div>
-
-                <div className="grid gap-4 auto-cols-max grid-flow-col">
-                    {
-                        products.map(product => {
-                            return <div key={product.id}
-                                className="flex
-                                    flex-col
-                                    px-4
-                                    py-2
-                                    shadow
-                                    bg-white
-                                    cursor-pointer
-                                    hover:opacity-75
-                                "
-                                onClick={() => {
-
-                                }}
-                            >
-                                <div>
-                                    <div>{product.name}</div>
-                                    <div>${product.unit_price}</div>
-                                </div>
-                            </div>
-                        })
-                    }
-                </div>
-            </div>
-            <div className="min-w-[400px] bg-white h-full pt-8">
-                Lista
             </div>
         </div>
     </PageLayout>

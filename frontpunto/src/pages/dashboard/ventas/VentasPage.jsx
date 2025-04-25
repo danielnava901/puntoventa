@@ -8,6 +8,12 @@ const VentasPage = () => {
     const [orders, setOrders] = useState([])
     const {token} = useUserStore();
     const navigate = useNavigate();
+    const statusColor = {
+        "OPEN": "border-b-6 border-green-200",
+        "CLOSED": "border-b-6 border-gray-200",
+        "PENDING": "border-b-6 border-blue-200",
+        "CANCELED": "border-b-6 border-red-200"
+    }
 
     const getData = async () => {
         const response = await sender({
@@ -24,7 +30,10 @@ const VentasPage = () => {
 
     return (
         <PageLayout showHeader={false}>
-            <div className="flex flex-col">
+            <div className="flex flex-col gap-8">
+                <div>
+                    <span className="font-bold text-2xl">Ordenes </span>
+                </div>
                 <div className="flex flex-col">
                     <span className="
                         flex
@@ -44,22 +53,22 @@ const VentasPage = () => {
                           }}
                     >Nuevo</span>
                 </div>
-                <div className="flex gap-4 mt-8">
+                <div className="grid grid-cols-4 gap-4">
                     {
                         orders.map(order => {
                             return <div  key={order.id}
-                                 className="
+                                 className={`
                                     p-4
-                                    border
-                                    border-gray-600
                                     flex
-                                    rounded
+                                    rounded-tl
+                                    rounded-tr
                                     cursor-pointer
                                     hover:opacity-75
                                     bg-white
                                     flex-col
                                     gap-4
-                                "
+                                    ${statusColor[order.status]}
+                                 `}
                                 onClick={() => {
                                     navigate(`/punto/orden/${order.id}`)
                                 }}
@@ -67,6 +76,7 @@ const VentasPage = () => {
                                 <div >
                                     <div className="">#{order.id}{` `}</div>
                                     <div className="fond-bold text-lg">{order.order_name}</div>
+                                    <div className="fond-bold text-sm">${order.total}</div>
                                 </div>
                                 <div className="text-xs">{order.diff}</div>
                             </div>

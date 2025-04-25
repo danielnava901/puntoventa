@@ -4,7 +4,7 @@ const Input = ({input,
                    onChange, sty= "normal" }) => {
 
     const styles = {
-        "normal": "border h-[65px] ",
+        "normal": "border h-[40px] ",
         "underline": "border-b-4 bg-gray-300 p-4 text-2xl rounded",
         "search": "border border-gray-300 p-2 bg-white"
     }

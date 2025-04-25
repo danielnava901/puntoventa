@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {sender} from "../utils/sender.js";
 import useUserStore from "../store/useUserStore.jsx";
 
-const useOrder = (orderId) => {
+const useOrder = (orderId, trigger) => {
     const {token} = useUserStore(state => state);
     const [order, setOrder] = useState(null);
     const getData = async () => {
@@ -17,7 +17,7 @@ const useOrder = (orderId) => {
 
     useEffect(() => {
         getData();
-    }, [orderId]);
+    }, [orderId, trigger]);
 
     return {order}
 }
