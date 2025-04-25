@@ -64,8 +64,9 @@ const VentasPage = () => {
                                     navigate(`/punto/orden/${order.id}`)
                                 }}
                             >
-                                <div className="fond-bold text-lg">
-                                    {order.order_name}
+                                <div >
+                                    <div className="">#{order.id}{` `}</div>
+                                    <div className="fond-bold text-lg">{order.order_name}</div>
                                 </div>
                                 <div className="text-xs">{order.diff}</div>
                             </div>

@@ -8,11 +8,20 @@ import useOrder from "../../../hooks/useOrder.js";
 import Input from "../../../components/Input.jsx";
 
 const OrderPage = () => {
+    const {token} = useUserStore(state => state);
     const {orderId} = useParams();
     const {order} = useOrder(orderId)
     const navigate = useNavigate();
     const [search, setSearch] = useState({value: "", error: false, type: "text", placeholder: "Buscar producto"})
     const {products} = useProducts(search.value);
+
+    const addProduct = async (productId) => {
+        const response = await sender({
+            url: `http://localhost:8000/api/order/${orderId}/addProduct/${productId}`,
+            token,
+            data: {productId}
+        });
+    }
 
     if(!order) return <div>Cargando</div>
 
@@ -46,10 +55,14 @@ const OrderPage = () => {
                                     bg-white
                                     cursor-pointer
                                     hover:opacity-75
-                                    "
+                                "
+                                onClick={() => {
+
+                                }}
                             >
                                 <div>
-                                    <span>{product.name}</span>
+                                    <div>{product.name}</div>
+                                    <div>${product.unit_price}</div>
                                 </div>
                             </div>
                         })
