@@ -9,10 +9,13 @@ import SimpleProductsTable from "../../../components/SimpleProductsTable.jsx";
 import Title from "../../../components/Title.jsx";
 import PLink from "../../../components/PLink.jsx";
 import {Button} from "../../../components/Button";
+import useWindowWidth from "../../../hooks/useWindowWidth.js";
 
 const NewOrderPage = () => {
     const {token} = useUserStore(state => state);
+    const {width: windowWidth} = useWindowWidth();
     const [products, setProducts] = useState([]);
+    const [showTable, setShowTable] = useState(false);
     const navigate = useNavigate();
     const [comensal, setComensal] = useState({
         value: "",
@@ -76,6 +79,10 @@ const NewOrderPage = () => {
         }
     }
 
+    const totalUnitProducts = products.reduce((prev, currentValue) => {
+        return prev + currentValue.quantity
+    }, 0);
+
     return (
         <PageLayout showHeader={false}>
             <div className="w-full flex items-center justify-between mb-8">
@@ -84,7 +91,7 @@ const NewOrderPage = () => {
                        extraCls="text-4xl font-bold cursor-pointer hover:opacity-75">&times;</PLink>
             </div>
             <div className="w-full flex gap-4">
-                <div className="min-w-1/2">
+                <div className="w-full md:min-w-1/2">
                     <div className="flex flex-col gap-4">
                         <Input
                             sty="underline"
@@ -92,8 +99,25 @@ const NewOrderPage = () => {
                             onChange={(newInput) => {
                                 setComensal(newInput)
                             }} />
-                        <Title>Comensal</Title>
-                        <ProductList onClickProduct={(product) => {
+                        <div className="
+                            flex
+                            w-full
+                            items-center
+                            justify-between
+                            items-end
+                        ">
+                            <Title>Comensal</Title>
+                            <span className="underline text-blue-800 cursor-pointer flex md:hidden"
+                                  onClick={() => {
+                                      setShowTable(prev => !prev);
+                                  }}
+                            >
+                                Prod ({totalUnitProducts})
+                            </span>
+                        </div>
+                        <ProductList
+                            extClass="max-h-[280px]"
+                            onClickProduct={(product) => {
                             onSelectProduct(product)
                         }}/>
                         <Button onClick={onSubmit}>
@@ -101,7 +125,26 @@ const NewOrderPage = () => {
                         </Button>
                     </div>
                 </div>
-                <SimpleProductsTable products={products} />
+                {
+                    windowWidth < 768 ?
+                    (showTable ? <div
+                            className="absolute z-1
+                                top-12
+                                left-0
+                                right-0
+                                bg-gray-200
+                                h-full
+                                flex
+                                flex-col
+                            ">
+                            <div className="w-full flex justify-end px-8 my-6">
+                                <Title onClick={() => {setShowTable(false)}}>&times;</Title>
+                            </div>
+                            <SimpleProductsTable products={products} />
+                    </div> : null) :
+                        <SimpleProductsTable products={products} />
+                }
+
             </div>
         </PageLayout>
     )

@@ -1,5 +1,5 @@
-const SimpleProductsTable = ({products}) => {
-    return <div className="overflow-x-auto w-full">
+const SimpleProductsTable = ({products, extraCls = ""}) => {
+    return <div className={`overflow-x-auto w-full ${extraCls}`}>
         <table className="
                     w-full
                     divide-y

@@ -1,13 +1,16 @@
 const CardProduct = ({product, onClickProduct}) => {
-    return <div className="flex
-                    flex-col
-                    px-4
-                    py-2
-                    shadow
-                    bg-white
-                    cursor-pointer
-                    hover:opacity-75
-                "
+    return <div className="
+        flex
+        flex-col
+        px-4
+        py-2
+        shadow
+        bg-white
+        cursor-pointer
+        hover:opacity-75
+        text-sm
+        md:text-md
+    "
     onClick={() => {
         onClickProduct(product)
     }}

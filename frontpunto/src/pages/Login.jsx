@@ -48,26 +48,28 @@ const Login = () => {
 
     }
 
-    return <PageLayout showHeader={false} extraCls="justify-center items-center h-full px-1">
-        <form className="
-            flex
-            gap-4
-            flex-col
-            border
-            p-4
-            w-10/12
-            md:w-8/12
-            lg:w-4/12
-        ">
-            <div className="font-bold">Email</div>
-            <Input input={email}
-                   onChange={(newEmail) => {
-                       setEmail(newEmail)
-                   }
-                   } />
-            <Button extraCls="w-full" onClick={onSubmit}>Entrar</Button>
-        </form>
-    </PageLayout>
+    return <PageLayout
+            showHeader={false}
+            extraCls="justify-center items-center h-full px-1">
+            <form className="
+                flex
+                gap-4
+                flex-col
+                border
+                p-4
+                w-10/12
+                md:w-8/12
+                lg:w-4/12
+            ">
+                <div className="font-bold">Email</div>
+                <Input input={email}
+                       onChange={(newEmail) => {
+                           setEmail(newEmail)
+                       }
+                       } />
+                <Button extraCls="w-full" onClick={onSubmit}>Entrar</Button>
+            </form>
+        </PageLayout>
 }
 
 export default Login;
