@@ -24,7 +24,7 @@ const sender = async ({url, data = {}, token = null, method = "POST"}) => {
         return null;
     }
     response = await response.json();
-    console.log({res: response});
+
     return response;
 }
 

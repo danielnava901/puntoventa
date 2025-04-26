@@ -5,12 +5,15 @@ import {useEffect, useState} from "react";
 import DateInput from "../../../components/DateInput.jsx";
 
 export const ReportPage = () => {
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    const today = new Date();;
-    const [desde, setDesde] = useState(yesterday)
-    const [hasta, setHasta] = useState(today)
-    const {products} = useOrderProducts(desde, hasta);
+    const today = new Date();
+    const [desde, setDesde] = useState(today);
+    const [hasta, setHasta] = useState(today);
+    const [desdeEpoch, setDesdeEpoch] = useState(Math.floor(
+        new Date(today.setHours(0, 0, 0, 0)).getTime() / 1000));
+    const [hastaEpoch, setHastaEpoch] = useState(Math.floor(
+        new Date(today.setHours(23, 59, 59, 999)).getTime() / 1000
+    ));
+    const {products} = useOrderProducts(desdeEpoch, hastaEpoch);
 
 
     return (
@@ -23,22 +26,26 @@ export const ReportPage = () => {
                     <label htmlFor="desde" className="font-bold">Desde</label>
                     <DateInput
                         initialDate={desde}
+                        name="desde"
                         onChange={({date, seconds}) => {
                             console.log({date, seconds});
-                            setDesde(seconds);
+                            setDesde(date);
+                            setDesdeEpoch(seconds);
                         }} />
                 </div>
                 <div className="flex flex-col">
                     <label htmlFor="hasta" className="font-bold">Hasta</label>
                     <DateInput
                         initialDate={hasta}
+                        name="hasta"
                         onChange={({date, seconds}) => {
                             console.log({date, seconds});
-                            setHasta(seconds);
+                            setHasta(date);
+                            setHastaEpoch(seconds);
                         }} />
                 </div>
             </div>
-            <div>
+            <div className="w-full mt-8">
                 <ProductsTable products={products} />
             </div>
         </PageLayout>

@@ -8,14 +8,16 @@ const useOrderProducts = (desde, hasta) => {
 
     const getData = async () => {
         const response = await sender({
-            url: "http://localhost:8000/api/order",
+            url: "http://localhost:8000/api/orderProduct/all",
             token,
             data: {desde, hasta}
-        })
+        });
+        const {data} = response;
+        setProducts(data);
     }
 
     useEffect(() => {
-        console.log({desde, hasta})
+        getData();
     }, [desde, hasta]);
 
     return {products}

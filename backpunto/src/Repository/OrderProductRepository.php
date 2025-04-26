@@ -40,4 +40,33 @@ class OrderProductRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function getAllOrderProducts($desde, $hasta)
+    {
+        $cn = $this->getEntityManager()->getConnection();
+
+        $stmt = $cn->executeQuery("
+            SELECT 
+                p.id as product_id, 
+                p.name as product_name,
+                SUM(op.quantity) as quantity,
+                printf('%.2f', SUM(op.price)) as price
+            FROM order_product op
+                JOIN `order` on `order`.id = op.order_id_id
+                JOIN product p on op.product_id = p.id
+            WHERE 
+                strftime('%s', op.created_at) BETWEEN :desde AND :hasta
+            GROUP BY op.product_id   
+            ORDER BY  SUM(op.price) DESC
+        ", [
+            "desde" => $desde,
+            "hasta" => $hasta
+        ]);
+
+        return $stmt->fetchAllAssociative();
+    }
 }

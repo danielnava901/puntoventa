@@ -1,6 +1,6 @@
 import {useState} from "react";
 
-const DateInput = ({ initialDate, onChange }) => {
+const DateInput = ({ initialDate, name, onChange }) => {
     const formatDate = (dateStrOrDate) => {
         const date = new Date(dateStrOrDate);
         return date.toISOString().split("T")[0];
@@ -14,7 +14,14 @@ const DateInput = ({ initialDate, onChange }) => {
     const handleChange = (ev) => {
         const value = ev.target.value;
         const date = new Date(value);
-        const secs = Math.floor(date.getTime() / 1000);
+        let secs = Math.floor(date.getTime() / 1000);
+        if(name === "desde") {
+            secs = new Date(date.setHours(0, 0, 0, 0)).getTime() / 1000;
+        }
+
+        if(name === "hasta") {
+            secs = new Date(date.setHours(23, 59, 59, 999)).getTime() / 1000;
+        }
 
         setSelectedDate(value);
         setSeconds(secs);
@@ -28,7 +35,7 @@ const DateInput = ({ initialDate, onChange }) => {
         <div className="flex flex-col gap-2">
             <label htmlFor="datePicker">Selecciona una fecha:</label>
             <input
-                id="datePicker"
+                id={name}
                 type="date"
                 className="w-[250px] border px-2 py-1"
                 value={selectedDate}

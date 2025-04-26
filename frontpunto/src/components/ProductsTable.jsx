@@ -1,4 +1,10 @@
 export const ProductsTable = ({products}) => {
+    const formatted = (number) => {
+        return number.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+    }
     return (
         <table className="
                     min-w-full
@@ -16,10 +22,10 @@ export const ProductsTable = ({products}) => {
             <tbody className="bg-white divide-y divide-gray-200">
             {
                 products.map(product => {
-                    return <tr key={product.id}>
-                        <td className="px-6 py-4 text-sm text-gray-900">{product.name}</td>
+                    return <tr key={product.product_id}>
+                        <td className="px-6 py-4 text-sm text-gray-900">{product.product_name}</td>
                         <td className="px-6 py-4 text-sm text-gray-700">{product.quantity}</td>
-                        <td className="px-6 py-4 text-sm text-gray-700">${product.subtotal}</td>
+                        <td className="px-6 py-4 text-sm text-gray-700">${formatted(product.price)}</td>
                     </tr>
                 })
             }

@@ -46,7 +46,6 @@ const NewOrderPage = () => {
             updatedProducts = [...products, newProduct];
         }
 
-        console.log({updatedProducts})
         setProducts(updatedProducts);
     }
 
