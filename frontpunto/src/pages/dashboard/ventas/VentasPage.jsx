@@ -3,14 +3,15 @@ import {sender} from "../../../utils/sender.js";
 import useUserStore from "../../../store/useUserStore.jsx";
 import {useNavigate} from "react-router";
 import PageLayout from "../PageLayout.jsx";
+import consts from "../../../consts.js";
 
 const VentasPage = () => {
     const [orders, setOrders] = useState([])
     const {token} = useUserStore();
     const navigate = useNavigate();
     const statusColor = {
-        "OPEN": "border-b-6 border-green-200",
-        "CLOSED": "border-b-6 border-gray-200",
+        "OPEN": "border-green-700",
+        "CLOSED": "border-b-6 border-gray-00",
         "PENDING": "border-b-6 border-blue-200",
         "CANCELED": "border-b-6 border-red-200"
     }
@@ -30,7 +31,7 @@ const VentasPage = () => {
 
     return (
         <PageLayout showHeader={false}>
-            <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-8 w-full">
                 <div>
                     <span className="font-bold text-2xl">Ordenes </span>
                 </div>
@@ -42,18 +43,19 @@ const VentasPage = () => {
                         p-2
                         rounded
                         shadow-lg
-                        w-[70px]
+                        w-[170px]
                         h-[70px]
-                        bg-white
+                        bg-gray-800
+                        text-white
                         hover:cursor-pointer
                         hover:opacity-75
                     "
                           onClick={() => {
                               navigate("/punto/nueva-orden")
                           }}
-                    >Nuevo</span>
+                    >Nueva orden</span>
                 </div>
-                <div className="grid grid-cols-4 gap-4">
+                <div className="grid grid-cols-4 gap-4 max-h-[500px] overflow-auto">
                     {
                         orders.map(order => {
                             return <div  key={order.id}
@@ -67,7 +69,8 @@ const VentasPage = () => {
                                     bg-white
                                     flex-col
                                     gap-4
-                                    ${statusColor[order.status]}
+                                    border-b-6 
+                                    ${consts.status_border[order.status]}
                                  `}
                                 onClick={() => {
                                     navigate(`/punto/orden/${order.id}`)

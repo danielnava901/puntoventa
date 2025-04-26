@@ -1,13 +1,12 @@
 import PageLayout from "../PageLayout.jsx";
 import {useNavigate, useParams} from "react-router";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {sender} from "../../../utils/sender.js";
 import useUserStore from "../../../store/useUserStore.jsx";
-import useProducts from "../../../hooks/useProducts.js";
 import useOrder from "../../../hooks/useOrder.js";
-import Input from "../../../components/Input.jsx";
 import ProductList from "../../../components/ProductList.jsx";
 import SimpleProductsTable from "../../../components/SimpleProductsTable.jsx";
+import consts from "../../../consts.js";
 
 const OrderPage = () => {
     const {token} = useUserStore(state => state);
@@ -15,8 +14,6 @@ const OrderPage = () => {
     const {orderId} = useParams();
     const {order} = useOrder(orderId, trigger);
     const navigate = useNavigate();
-    const [search, setSearch] = useState({value: "", error: false, type: "text", placeholder: "Buscar producto"})
-    const {products} = useProducts(search.value);
 
     const addProduct = async (productId) => {
         const response = await sender({
@@ -27,6 +24,16 @@ const OrderPage = () => {
         setTrigger(prev => prev + 1);
     }
 
+    const onClickClose = async () => {
+        const response = await sender({
+            url: `http://localhost:8000/api/order/${orderId}/close`,
+            method: "POST",
+            token
+        });
+
+        setTrigger(prev => prev + 1);
+    }
+
     if(!order) return <div>Cargando</div>
 
     return <PageLayout onBack={() => {
@@ -34,9 +41,18 @@ const OrderPage = () => {
     }}>
         <div className="w-full flex h-full">
             <div className="flex flex-col gap-4 flex-1 px-8">
-                <div className="flex gap-4 items-center">
-                    <span className="text-2xl">Orden #{orderId}</span>
-                    <span className="text-2xl font-bold">{order.order_name}</span>
+                <div className="flex gap-4 justify-between items-center">
+                    <div className="flex gap-4">
+                        <span className="text-2xl">Orden #{orderId}</span>
+                        <span className="text-2xl font-bold">{order.order_name}</span>
+                    </div>
+                    <div>
+                        <span className={`
+                        px-2
+                        py-1
+                        ${consts.status[order.status]}
+                        `}>{consts[order.status]}</span>
+                    </div>
                 </div>
                 <ProductList onClickProduct={async (product) => {
                     await addProduct(product.id)
@@ -53,14 +69,21 @@ const OrderPage = () => {
                         <span className="font-bold">Total</span>
                         <span className="text-lg">${order.total}</span>
                     </div>
-                    <div>
-                        <button className="
-                        w-full
-                        hover:cursor-pointer
-                        hover:opacity-75
-                        bg-black text-white p-4 flex justify-center
-                        items-center">Pagar</button>
-                    </div>
+                    {
+                        order.status === "OPEN" ? <div>
+                            <button className="
+                                w-full
+                                hover:cursor-pointer
+                                hover:opacity-75
+                                bg-black text-white p-4 flex justify-center
+                                items-center"
+                            onClick={() => {
+                                onClickClose();
+                            }}
+                            >Pagar</button>
+                        </div> : null
+                    }
+
                 </div>
             </div>
         </div>
