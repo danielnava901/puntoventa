@@ -6,6 +6,9 @@ import useUserStore from "../../../store/useUserStore.jsx";
 import PageLayout from "../PageLayout.jsx";
 import ProductList from "../../../components/ProductList.jsx";
 import SimpleProductsTable from "../../../components/SimpleProductsTable.jsx";
+import Title from "../../../components/Title.jsx";
+import PLink from "../../../components/PLink.jsx";
+import {Button} from "../../../components/Button";
 
 const NewOrderPage = () => {
     const {token} = useUserStore(state => state);
@@ -75,15 +78,13 @@ const NewOrderPage = () => {
 
     return (
         <PageLayout showHeader={false}>
-            <div className="w-full flex flex-col items-center">
-                <div className="w-full flex justify-end">
-                    <span className="text-4xl font-bold cursor-pointer hover:opacity-75"
-                          onClick={() => {
-                              navigate("/punto")
-                          }}
-                    >&times;</span>
-                </div>
-                <form onSubmit={onSubmit} className="flex gap-4">
+            <div className="w-full flex items-center justify-between mb-8">
+                <Title>Nueva Orden</Title>
+                <PLink path="/punto"
+                       extraCls="text-4xl font-bold cursor-pointer hover:opacity-75">&times;</PLink>
+            </div>
+            <div className="w-full flex gap-4">
+                <div className="min-w-1/2">
                     <div className="flex flex-col gap-4">
                         <Input
                             sty="underline"
@@ -91,24 +92,16 @@ const NewOrderPage = () => {
                             onChange={(newInput) => {
                                 setComensal(newInput)
                             }} />
-                        <span className="text-xl font-bold">Comensal</span>
+                        <Title>Comensal</Title>
                         <ProductList onClickProduct={(product) => {
                             onSelectProduct(product)
                         }}/>
-                        <button type="submit" className="
-                            bg-red-400
-                            p-2 rounded
-                            hover:cursor-pointer
-                            hover:opacity-75
-                            text-white
-                        ">Crear orden</button>
+                        <Button onClick={onSubmit}>
+                            Crear orden
+                        </Button>
                     </div>
-                    <div>
-                        {
-                            products.length > 0 ? <SimpleProductsTable products={products} /> : null
-                        }
-                    </div>
-                </form>
+                </div>
+                <SimpleProductsTable products={products} />
             </div>
         </PageLayout>
     )

@@ -7,6 +7,7 @@ import {ReportPage} from "./pages/dashboard/report/ReportPage";
 import NewOrderPage from "./pages/dashboard/neworder/NewOrderPage.jsx";
 import OrderPage from "./pages/dashboard/order/OrderPage.jsx";
 import useUserStore from "./store/useUserStore.jsx";
+import {Logout} from "./pages/Logout.jsx";
 
 
 const PuntoRouter = () => {
@@ -23,6 +24,8 @@ const PuntoRouter = () => {
                 <Route path="orden/:orderId" element={<OrderPage />} />
             </Route>
         </Route>
+        <Route path="/logout" element={<Logout />} />
+
     </Routes>
 }
 

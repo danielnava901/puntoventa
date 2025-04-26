@@ -1,32 +1,16 @@
-import {Outlet, useNavigate} from "react-router";
-import useUserStore from "../../store/useUserStore.jsx";
+import {Outlet} from "react-router";
+import PLink from "../../components/PLink.jsx";
 
 const Layout = () => {
-    const {logout} = useUserStore();
-    const navigate = useNavigate();
-
     return <div className="w-full h-full flex">
         <div className="min-w-[200px] bg-gray-800 text-white flex flex-col">
-            <div className="h-[40px] bg-red-400">ICON</div>
-            <div className="flex flex-col gap-2">
-                <span className="cursor-pointer hover:opacity-45"
-                onClick={() => {
-                    navigate("/punto");
-                }}
-                >Venta</span>
-                <span className="cursor-pointer hover:opacity-45"
-                  onClick={() => {
-                      navigate("/punto/reportes");
-                  }}
-                >Resumen</span>
+            <div className="h-[40px] bg-red-400 flex justify-center items-center">ICON</div>
+            <div className="flex flex-col gap-4 mt-4">
+                <PLink path="/punto" extraCls="w-full h-[60px]">Venta</PLink>
+                <PLink path="/punto/reportes" extraCls="w-full h-[60px]">Resumen</PLink>
             </div>
             <div className="mt-auto py-4">
-                <span className="cursor-pointer hover:opacity-45"
-                      onClick={() => {
-                          logout();
-                          navigate("/login");
-                      }}
-                >Cerrar sesión</span>
+                <PLink path="/logout" extraCls="w-full h-[60px]">Cerrar sesión</PLink>
             </div>
         </div>
         <div className="m-0 p-0 w-full h-full">

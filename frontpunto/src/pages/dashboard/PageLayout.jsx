@@ -1,4 +1,8 @@
-const PageLayout = ({children, showHeader = true, onBack = () => {}}) => {
+const PageLayout = ({children,
+    showHeader = true,
+    onBack = () => {},
+    extraCls = ""
+}) => {
     return <div className="
             w-full
             h-full
@@ -23,8 +27,7 @@ const PageLayout = ({children, showHeader = true, onBack = () => {}}) => {
             flex-col
             w-full
             h-full
-            items-center
-            flex-col
+            ${extraCls}
         `}>
             {children}
         </div>

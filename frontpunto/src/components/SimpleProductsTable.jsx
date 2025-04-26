@@ -1,16 +1,16 @@
 const SimpleProductsTable = ({products}) => {
-    return <table className="
-                    min-w-full
+    return <div className="overflow-x-auto w-full">
+        <table className="
+                    w-full
                     divide-y
                     divide-gray-200
-                    overflow-hidden
                     ">
         <thead className="bg-gray-100">
-        <tr>
-            <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Producto</th>
-            <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Cantidad</th>
-            <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Precio</th>
-        </tr>
+            <tr>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Producto</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Cantidad</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Precio</th>
+            </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
         {
@@ -24,6 +24,7 @@ const SimpleProductsTable = ({products}) => {
         }
         </tbody>
     </table>
+    </div>
 }
 
 export default SimpleProductsTable;
