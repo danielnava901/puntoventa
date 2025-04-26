@@ -7,6 +7,8 @@ import useOrder from "../../../hooks/useOrder.js";
 import ProductList from "../../../components/ProductList.jsx";
 import SimpleProductsTable from "../../../components/SimpleProductsTable.jsx";
 import consts from "../../../consts.js";
+import Title from "../../../components/Title.jsx";
+import {Button} from "../../../components/Button";
 
 const OrderPage = () => {
     const {token} = useUserStore(state => state);
@@ -36,23 +38,19 @@ const OrderPage = () => {
 
     if(!order) return <div>Cargando</div>
 
-    return <PageLayout onBack={() => {
-        navigate("/punto")
-    }}>
+    return <PageLayout onBack={() => {navigate("/punto")}} extraCls="h-full">
         <div className="w-full flex h-full">
             <div className="flex flex-col gap-4 flex-1 px-8">
                 <div className="flex gap-4 justify-between items-center">
                     <div className="flex gap-4">
-                        <span className="text-2xl">Orden #{orderId}</span>
-                        <span className="text-2xl font-bold">{order.order_name}</span>
+                        <Title>Orden #{orderId}</Title>
+                        <Title>{order.order_name}</Title>
                     </div>
-                    <div>
-                        <span className={`
+                    <div className={`
                         px-2
                         py-1
                         ${consts.status[order.status]}
-                        `}>{consts[order.status]}</span>
-                    </div>
+                    `}>{consts[order.status]}</div>
                 </div>
                 <ProductList onClickProduct={async (product) => {
                     await addProduct(product.id)
@@ -71,16 +69,17 @@ const OrderPage = () => {
                     </div>
                     {
                         order.status === "OPEN" ? <div>
-                            <button className="
-                                w-full
-                                hover:cursor-pointer
-                                hover:opacity-75
-                                bg-black text-white p-4 flex justify-center
-                                items-center"
-                            onClick={() => {
-                                onClickClose();
-                            }}
-                            >Pagar</button>
+                            <Button
+                                extraCls="w-full
+                                    hover:cursor-pointer
+                                    hover:opacity-75
+                                    bg-black text-white p-4 flex justify-center
+                                    items-center
+                                "
+                                onClick={() => {
+                                    onClickClose();
+                                }}
+                            >Pagar</Button>
                         </div> : null
                     }
 

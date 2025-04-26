@@ -26,7 +26,6 @@ const PageLayout = ({children,
             flex
             flex-col
             w-full
-            h-full
             ${extraCls}
         `}>
             {children}

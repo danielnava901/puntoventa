@@ -3,7 +3,8 @@ export const Button = ({onClick, children, extraCls=""}) => {
         <button type="submit"
                 className={`
                 bg-red-400
-                p-2 rounded
+                p-2 
+                rounded
                 hover:cursor-pointer
                 hover:opacity-75
                 text-white

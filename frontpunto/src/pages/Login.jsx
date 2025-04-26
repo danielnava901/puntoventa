@@ -3,6 +3,8 @@ import {useState} from "react";
 import {sender} from "../utils/sender.js";
 import useUserStore from "../store/useUserStore.jsx";
 import {useNavigate} from "react-router";
+import PageLayout from "./dashboard/PageLayout.jsx";
+import {Button} from "../components/Button";
 
 
 const Login = () => {
@@ -13,12 +15,14 @@ const Login = () => {
         type: "email"
     });
     const navigate = useNavigate();
-
+    const isEmail = (email) => {
+        return /\S+@\S+\.\S+/.test(email);
+    }
 
     const onSubmit = async (ev) => {
         ev.preventDefault();
-        if(email.error) {
-            alert("Escriba su email");
+        if(email.error || !isEmail(email.value)) {
+            alert("Formato de email incorrecto");
             return;
         }
 
@@ -44,50 +48,26 @@ const Login = () => {
 
     }
 
-    return <div className="
-        w-full
-        h-full
-        flex
-        justify-center
-        items-center
-        flex-col
-        ">
-        <form
-            className="
-            p-4
+    return <PageLayout showHeader={false} extraCls="justify-center items-center h-full px-1">
+        <form className="
             flex
+            gap-4
             flex-col
             border
-            rounded
-            border-gray-400
-            w-4/12
-            gap-4
-        "
-            onSubmit={onSubmit}
-        >
-            <div >
-                <label htmlFor="email"
-                       className="font-bold"
-                >Email</label>
-                <Input input={email}
-                       onChange={(newEmail) => {
-                            setEmail(newEmail)
-                       }
-                } />
-            </div>
-            <div>
-                <button className="
-                    p-2
-                    border
-                    w-full
-                    bg-[#F04E4A]
-                    border-none
-                    hover:opacity-75
-                    hover:cursor-pointer
-                ">Entrar</button>
-            </div>
+            p-4
+            w-10/12
+            md:w-8/12
+            lg:w-4/12
+        ">
+            <div className="font-bold">Email</div>
+            <Input input={email}
+                   onChange={(newEmail) => {
+                       setEmail(newEmail)
+                   }
+                   } />
+            <Button extraCls="w-full" onClick={onSubmit}>Entrar</Button>
         </form>
-    </div>
+    </PageLayout>
 }
 
 export default Login;
