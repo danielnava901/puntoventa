@@ -11,6 +11,7 @@ export const ProductsTable = ({products}) => {
                     divide-y
                     divide-gray-200
                     overflow-hidden
+                    flex-1
                     ">
             <thead className="bg-gray-100">
             <tr>

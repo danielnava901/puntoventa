@@ -33,7 +33,6 @@ const DateInput = ({ initialDate, name, onChange }) => {
 
     return (
         <div className="flex flex-col gap-2">
-            <label htmlFor="datePicker">Selecciona una fecha:</label>
             <input
                 id={name}
                 type="date"
