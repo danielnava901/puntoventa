@@ -47,7 +47,7 @@ const NewOrderPage = () => {
                 name: product.name,
                 quantity: product.quantity || 1,
                 unit_price: parseFloat(product.unit_price),
-                subtotal: parseFloat(product.unit_price)
+                subtotal: parseFloat(product.unit_price) * parseFloat(product.quantity || 1)
             };
             updatedProducts = [...products, newProduct];
         }

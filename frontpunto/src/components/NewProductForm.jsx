@@ -102,8 +102,8 @@ export const NewProductForm = ({onAddProduct}) => {
                                }}
                         />
                     </div>
-                    <div className="w-[65px] flex flex-col">
-                        <span>Precio</span>
+                    <div className="w-[85px] flex flex-col ">
+                        <span>$ x Unid</span>
                         <input type="number"
                                className="w-full border border-gray-400"
                                min={1}

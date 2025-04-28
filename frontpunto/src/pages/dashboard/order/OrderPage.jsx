@@ -18,11 +18,11 @@ const OrderPage = () => {
     const {order} = useOrder(orderId, trigger);
     const navigate = useNavigate();
 
-    const addProduct = async (productId, quantity = 1) => {
+    const addProduct = async (product) => {
         const response = await sender({
-            url: `http://localhost:8000/api/order/${orderId}/addProduct/${productId}?quantity=${quantity}`,
+            url: `http://localhost:8000/api/order/${orderId}/addProduct/${product.id}?quantity=${product.quantity}`,
             token,
-            data: {productId}
+            data: {productId: product.id}
         });
         setTrigger(prev => prev + 1);
     }
@@ -91,7 +91,7 @@ const OrderPage = () => {
                 <ProductList
                     extClass="max-h-[450px] md:max-h-[calc(100%) -10px]"
                     onClickProduct={async (product, quantity = 1) => {
-                    await addProduct(product.id, quantity)
+                    await addProduct(product)
                 }}/>
             </div>
             <div className={`
