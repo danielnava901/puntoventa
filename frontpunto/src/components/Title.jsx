@@ -1,5 +1,10 @@
-const Title = ({children, onClick = () => {}}) => {
-    return <span className="font-bold text-lg md:text-2xl" onClick={onClick}>{children}</span>
+const Title = ({children, isSubtitle = false, onClick = () => {}}) => {
+    return <span className={`
+            font-bold
+            ${isSubtitle ? "md:text-lg text-xs" : "md:text-2xl text-lg"}
+        `}
+        onClick={onClick}>{children}
+    </span>
 }
 
 export default Title;

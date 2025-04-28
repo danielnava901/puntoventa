@@ -2,11 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Product;
+use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 
@@ -42,4 +47,37 @@ final class ProductController extends AbstractController
     }
 
 
+    #[Route('/new', name: 'product_new_all', methods: ["POST"])]
+    public function create(
+        Request $request,
+        CategoryRepository $categoryRepository,
+        EntityManagerInterface $entityManager
+    ): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+        if(empty($data)) {
+            return $this->json([
+                "error" => "No data"
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        $name = $data["name"];
+        $price = $data["price"];
+        $quantity = $data["quantity"];
+
+        $newProduct = new Product();
+        $category = $categoryRepository->find(1);
+        $newProduct->setName($name)
+            ->setCategory($category)
+            ->setUnitPrice($price)
+        ;
+
+        $entityManager->persist($newProduct);
+        $entityManager->flush();
+
+
+        return $this->json([
+            "product" => array_merge($newProduct->toArray(), ["quantity" => $quantity])
+        ]);
+    }
 }

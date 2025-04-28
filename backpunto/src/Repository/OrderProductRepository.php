@@ -60,7 +60,7 @@ class OrderProductRepository extends ServiceEntityRepository
                 JOIN product p on op.product_id = p.id
             WHERE 
                 strftime('%s', op.created_at) BETWEEN :desde AND :hasta
-            GROUP BY op.product_id   
+            GROUP BY p.name   
             ORDER BY  SUM(op.price) DESC
         ", [
             "desde" => $desde,

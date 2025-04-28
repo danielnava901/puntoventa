@@ -45,7 +45,7 @@ const NewOrderPage = () => {
             const newProduct = {
                 id: product.id,
                 name: product.name,
-                quantity: 1,
+                quantity: product.quantity || 1,
                 unit_price: parseFloat(product.unit_price),
                 subtotal: parseFloat(product.unit_price)
             };
@@ -118,7 +118,7 @@ const NewOrderPage = () => {
                         <ProductList
                             extClass="max-h-[280px]"
                             onClickProduct={(product) => {
-                            onSelectProduct(product)
+                                onSelectProduct(product)
                         }}/>
                         <Button onClick={onSubmit}>
                             Crear orden
@@ -141,7 +141,7 @@ const NewOrderPage = () => {
                                 <Title onClick={() => {setShowTable(false)}}>&times;</Title>
                             </div>
                             <SimpleProductsTable products={products} />
-                    </div> : null) :
+                        </div> : null) :
                         <SimpleProductsTable products={products} />
                 }
 

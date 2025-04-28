@@ -18,9 +18,9 @@ const OrderPage = () => {
     const {order} = useOrder(orderId, trigger);
     const navigate = useNavigate();
 
-    const addProduct = async (productId) => {
+    const addProduct = async (productId, quantity = 1) => {
         const response = await sender({
-            url: `http://localhost:8000/api/order/${orderId}/addProduct/${productId}`,
+            url: `http://localhost:8000/api/order/${orderId}/addProduct/${productId}?quantity=${quantity}`,
             token,
             data: {productId}
         });
@@ -41,7 +41,6 @@ const OrderPage = () => {
     if(!order) return <div>Cargando</div>
 
     const totalUnitProducts = order.products.reduce((prev, currentValue) => {
-        console.log({currentValue});
         return prev + Number(currentValue.quantity)
     }, 0);
 
@@ -61,8 +60,11 @@ const OrderPage = () => {
                         ${consts.status[order.status]}
                     `}>{consts[order.status]}</div>
                 </div>
-                <div className="flex md:hidden
-                    justify-end items-center
+                {/*Oculto para grandes pantallas, solo para moviles */}
+                <div className="flex
+                    md:hidden
+                    justify-end
+                    items-center
                     gap-2
                     text-gray-600
                     font-bold
@@ -86,8 +88,10 @@ const OrderPage = () => {
 
                     </span>
                 </div>
-                <ProductList onClickProduct={async (product) => {
-                    await addProduct(product.id)
+                <ProductList
+                    extClass="max-h-[450px] md:max-h-[calc(100%) -10px]"
+                    onClickProduct={async (product, quantity = 1) => {
+                    await addProduct(product.id, quantity)
                 }}/>
             </div>
             <div className={`
@@ -104,7 +108,8 @@ const OrderPage = () => {
                         onClick={() => {setShowTable(false)}}>&times;</span>
                 </div> : null}
                 <SimpleProductsTable products={order.products} extraCls="h-full" />
-                <div className="w-full
+                <div className="
+                    w-full
                     mt-auto
                     border-t-1
                     flex
@@ -113,7 +118,8 @@ const OrderPage = () => {
                     border-dashed
                     border-gray-400
                     py-2
-                    px-1">
+                    px-1
+                ">
                     <div className="flex items-center justify-between">
                         <span className="font-bold">Total</span>
                         <span className="text-lg">${order.total}</span>
@@ -133,7 +139,6 @@ const OrderPage = () => {
                             >Pagar</Button>
                         </div> : null
                     }
-
                 </div>
             </div>
         </div>
