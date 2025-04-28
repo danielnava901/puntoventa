@@ -51,11 +51,12 @@ final class ProductController extends AbstractController
     public function create(
         Request $request,
         CategoryRepository $categoryRepository,
+        ProductRepository $productRepository,
         EntityManagerInterface $entityManager
     ): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
-        if(empty($data)) {
+        if(empty($data) || !isset($data["name"])) {
             return $this->json([
                 "error" => "No data"
             ], Response::HTTP_BAD_REQUEST);
@@ -64,6 +65,16 @@ final class ProductController extends AbstractController
         $name = $data["name"];
         $price = $data["price"];
         $quantity = $data["quantity"];
+
+
+        $existingProduct = $productRepository->findOneBy(["name" => $name]);
+        if(!empty($existingProduct)) {
+            return $this->json([
+                "exist" => true,
+                "product" => array_merge($existingProduct->toArray(), ["quantity" => $quantity])
+            ]);
+        }
+
 
         $newProduct = new Product();
         $category = $categoryRepository->find(1);

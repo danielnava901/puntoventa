@@ -1,7 +1,7 @@
 import PageLayout from "../PageLayout.jsx";
 import {ProductsTable} from "../../../components/ProductsTable";
 import useOrderProducts from "../../../hooks/useOrderProducts.js";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import DateInput from "../../../components/DateInput.jsx";
 import Title from "../../../components/Title.jsx";
 
@@ -29,7 +29,6 @@ export const ReportPage = () => {
                         initialDate={desde}
                         name="desde"
                         onChange={({date, seconds}) => {
-                            console.log({date, seconds});
                             setDesde(date);
                             setDesdeEpoch(seconds);
                         }} />
@@ -40,13 +39,21 @@ export const ReportPage = () => {
                         initialDate={hasta}
                         name="hasta"
                         onChange={({date, seconds}) => {
-                            console.log({date, seconds});
+
                             setHasta(date);
                             setHastaEpoch(seconds);
                         }} />
                 </div>
             </div>
-            <div className="w-full mt-8 flex flex-col overflow-auto max-h-[350px] md:max-h-full">
+            <div className="
+                w-full
+                mt-8
+                flex
+                flex-col
+                overflow-auto
+                max-h-[350px]
+                md:max-h-[550px]
+                ">
                 <ProductsTable products={products} />
             </div>
         </PageLayout>

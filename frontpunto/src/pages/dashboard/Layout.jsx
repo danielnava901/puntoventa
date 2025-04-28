@@ -7,7 +7,7 @@ const Layout = () => {
     const [showMenu, setShowMenu] = useState(false);
     const {width: windowWidth} = useWindowWidth();
     let letShowMenu = false;
-    if(showMenu && windowWidth < 678) {
+    if(showMenu && windowWidth < 768) {
         letShowMenu = true;
     }
 

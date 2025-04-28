@@ -20,7 +20,7 @@ export const ProductsTable = ({products}) => {
                 <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Precio</th>
             </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white divide-y divide-gray-200 h-[200px] overflow-auto">
             {
                 products.map(product => {
                     return <tr key={product.product_id}>
