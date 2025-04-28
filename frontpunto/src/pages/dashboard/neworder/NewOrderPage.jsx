@@ -10,6 +10,7 @@ import Title from "../../../components/Title.jsx";
 import PLink from "../../../components/PLink.jsx";
 import {Button} from "../../../components/Button";
 import useWindowWidth from "../../../hooks/useWindowWidth.js";
+import Modal from "../../../components/Modal.jsx";
 
 const NewOrderPage = () => {
     const {token} = useUserStore(state => state);
@@ -115,9 +116,7 @@ const NewOrderPage = () => {
                                 Prod ({totalUnitProducts})
                             </span>
                         </div>
-                        <ProductList
-                            extClass="max-h-[280px]"
-                            onClickProduct={(product) => {
+                        <ProductList onClickProduct={(product) => {
                                 onSelectProduct(product)
                         }}/>
                         <Button onClick={onSubmit}>
@@ -125,27 +124,21 @@ const NewOrderPage = () => {
                         </Button>
                     </div>
                 </div>
+                {/*Muestra Si la pantalla es grande (web)*/}
                 {
-                    windowWidth < 768 ?
-                    (showTable ? <div
-                            className="absolute z-1
-                                top-12
-                                left-0
-                                right-0
-                                bg-gray-200
-                                h-full
-                                flex
-                                flex-col
-                            ">
-                            <div className="w-full flex justify-end px-8 my-6">
-                                <Title onClick={() => {setShowTable(false)}}>&times;</Title>
-                            </div>
-                            <SimpleProductsTable products={products} />
-                        </div> : null) :
+                    windowWidth > 768 ? <div className="md:min-w-1/2 overflow-auto flex-1">
                         <SimpleProductsTable products={products} />
+                    </div> : null
                 }
 
             </div>
+
+            <Modal onClose={() => {setShowTable(false)}}
+                   isOpen={windowWidth <= 768 && showTable}>
+                <div className="flex-1 overflow-auto p-4">
+                    <SimpleProductsTable products={products} />
+                </div>
+            </Modal>
         </PageLayout>
     )
 }

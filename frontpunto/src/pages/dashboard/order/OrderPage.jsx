@@ -19,8 +19,9 @@ const OrderPage = () => {
     const navigate = useNavigate();
 
     const addProduct = async (product) => {
+        let quantity = product.quantity || 1;
         const response = await sender({
-            url: `http://localhost:8000/api/order/${orderId}/addProduct/${product.id}?quantity=${product.quantity}`,
+            url: `http://localhost:8000/api/order/${orderId}/addProduct/${product.id}?quantity=${quantity}`,
             token,
             data: {productId: product.id}
         });
@@ -36,7 +37,6 @@ const OrderPage = () => {
 
         setTrigger(prev => prev + 1);
     }
-
 
     if(!order) return <div>Cargando</div>
 
@@ -60,7 +60,8 @@ const OrderPage = () => {
                         ${consts.status[order.status]}
                     `}>{consts[order.status]}</div>
                 </div>
-                {/*Oculto para grandes pantallas, solo para moviles */}
+
+                {/*Esta parte Oculto para grandes pantallas, solo para moviles */}
                 <div className="flex
                     md:hidden
                     justify-end
@@ -88,57 +89,64 @@ const OrderPage = () => {
 
                     </span>
                 </div>
+
                 <ProductList
-                    extClass="max-h-[450px] md:max-h-[calc(100%) -10px]"
+                    extClass=""
                     onClickProduct={async (product, quantity = 1) => {
                     await addProduct(product)
                 }}/>
             </div>
             <div className={`
-                h-[calc(100% - 65px)]
                 min-w-full
                 md:min-w-[400px] 
                 bg-white 
                 flex-col 
                 ${showTable ? "flex absolute top-10 left-0" : "hidden"} 
                 md:flex
+                h-full
             `}>
-                {showTable ? <div className="w-full flex justify-end items-center">
+                {
+                    showTable ? <div className="w-full flex justify-end items-center">
                     <span className="text-4xl cursor-pointer"
                         onClick={() => {setShowTable(false)}}>&times;</span>
-                </div> : null}
-                <SimpleProductsTable products={order.products} extraCls="h-full" />
-                <div className="
-                    w-full
-                    mt-auto
-                    border-t-1
-                    flex
-                    flex-col
-                    gap-4
-                    border-dashed
-                    border-gray-400
-                    py-2
-                    px-1
-                ">
-                    <div className="flex items-center justify-between">
-                        <span className="font-bold">Total</span>
-                        <span className="text-lg">${order.total}</span>
+                </div> : null
+                }
+                <div className="flex flex-col flex-1 overflow-hidden pb-10 md:pb-0">
+                    <div className="flex-1 overflow-auto">
+                        <SimpleProductsTable products={order.products} />
                     </div>
-                    {
-                        order.status === "OPEN" ? <div>
-                            <Button
-                                extraCls="w-full
+                    <div className="
+                        w-full
+                        mt-auto
+                        border-t-1
+                        flex
+                        flex-col
+                        gap-4
+                        border-dashed
+                        border-gray-400
+                        py-2
+                        px-1
+                    ">
+                        <div className="flex items-center justify-between">
+                            <span className="font-bold">Total</span>
+                            <span className="text-lg">${order.total}</span>
+                        </div>
+                        {
+                            order.status === "OPEN" ? <div>
+                                <Button
+                                    extraCls="w-full
                                     hover:cursor-pointer
                                     hover:opacity-75
                                     bg-black text-white p-4 flex justify-center
                                     items-center
                                 "
-                                onClick={() => {
-                                    onClickClose();
-                                }}
-                            >Pagar</Button>
-                        </div> : null
-                    }
+                                    onClick={() => {
+                                        onClickClose();
+                                    }}
+                                >Pagar</Button>
+                            </div> : null
+                        }
+                    </div>
                 </div>
             </div>
         </div>

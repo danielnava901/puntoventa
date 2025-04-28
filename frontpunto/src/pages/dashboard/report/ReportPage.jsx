@@ -45,15 +45,7 @@ export const ReportPage = () => {
                         }} />
                 </div>
             </div>
-            <div className="
-                w-full
-                mt-8
-                flex
-                flex-col
-                overflow-auto
-                max-h-[350px]
-                md:max-h-[550px]
-                ">
+            <div className="w-full mt-8 flex flex-col flex-1 overflow-auto">
                 <ProductsTable products={products} />
             </div>
         </PageLayout>

@@ -3,12 +3,7 @@ const PageLayout = ({children,
     onBack = () => {},
     extraCls = ""
 }) => {
-    return <div className="
-            w-full
-            h-full
-            bg-gray-200
-            relative
-            ">
+    return <div className="w-full h-screen bg-gray-200 relative flex flex-col overflow-hidden">
         {
             showHeader ? <div className="absolute
             top-0
@@ -36,6 +31,8 @@ const PageLayout = ({children,
             flex
             flex-col
             w-full
+            flex-1
+            overflow-auto
             ${extraCls}
         `}>
             {children}

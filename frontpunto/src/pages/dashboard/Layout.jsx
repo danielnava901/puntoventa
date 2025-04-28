@@ -68,7 +68,7 @@ const Layout = () => {
                 <PLink path="/logout" extraCls="w-full h-[60px]">Cerrar sesión</PLink>
             </div>
         </div>
-        <div className="m-0 p-0 w-full h-full pt-[40px] md:pt-0">
+        <div className="m-0 p-0 w-full h-full">
             <Outlet />
         </div>
     </div>

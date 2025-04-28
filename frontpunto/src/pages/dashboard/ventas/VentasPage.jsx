@@ -27,7 +27,7 @@ const VentasPage = () => {
     }, []);
 
     return (
-        <PageLayout showHeader={false} extraCls="gap-4">
+        <PageLayout showHeader={false} extraCls="gap-4 mt-[10px] md:mt-0">
             <Title>Ordenes</Title>
             <BigButton onClick={() => {
                 navigate("/punto/nueva-orden")
