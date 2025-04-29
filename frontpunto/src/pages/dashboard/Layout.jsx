@@ -35,7 +35,7 @@ const Layout = () => {
             onClick={() => {
                 setShowMenu(prev => !prev);
             }}>
-            <svg xmlns="http://www.w3.org/2000/svg"
+                <svg xmlns="http://www.w3.org/2000/svg"
                      viewBox="0 0 24 24"
                      fill="currentColor"
                      className="w-8">
@@ -46,6 +46,7 @@ const Layout = () => {
             </span>
             <div className="w-full text-center"><Logo /></div>
         </div>
+
         <div className={`
             min-w-[200px]
             bg-gray-800
@@ -53,7 +54,7 @@ const Layout = () => {
             flex-col
             md:flex
             ${!letShowMenu ? "hidden" : ""}
-            ${letShowMenu ? "absolute top-10 left-0 z-1 h-full w-10/12" : ""}
+            ${letShowMenu ? "absolute top-10 left-0 z-1 h-full w-8/12" : ""}
         `}>
             {
                 !letShowMenu ? <div className="h-[40px] flex justify-center items-center">
@@ -69,7 +70,9 @@ const Layout = () => {
                 <PLink path="/logout" extraCls="w-full h-[60px]">Cerrar sesión</PLink>
             </div>
         </div>
-        <div className="m-0 p-0 w-full h-full">
+        <div className="m-0 p-0 w-full h-full" onClick={() => {
+            setShowMenu(false)
+        }}>
             <Outlet />
         </div>
     </div>
