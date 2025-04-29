@@ -44,7 +44,9 @@ const OrderPage = () => {
         return prev + Number(currentValue.quantity)
     }, 0);
 
-    return <PageLayout onBack={() => {navigate("/punto")}} extraCls="h-screen">
+    return <PageLayout showHeader={true}
+                       onBack={() => {navigate("/punto")}}
+                       extraCls="h-screen">
         <div className="w-full flex h-full">
             <div className="flex flex-col gap-4 flex-1 px-8 h-[calc(100vh - 100px)] overflow-hidden">
                 <div className="flex gap-4 justify-between items-center">

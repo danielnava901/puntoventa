@@ -14,10 +14,9 @@ const Layout = () => {
 
     return <div className="w-full h-full flex relative">
         <div className="h-[40px]
-            bg-red-400
+            bg-gray-800
             flex
             items-center
-            flex
             md:hidden
             absolute
             z-1
@@ -44,9 +43,8 @@ const Layout = () => {
                             d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z"
                             clipRule="evenodd"/>
                 </svg>
-
             </span>
-            <Logo />
+            <div className="w-full text-center"><Logo /></div>
         </div>
         <div className={`
             min-w-[200px]

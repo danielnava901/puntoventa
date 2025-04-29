@@ -3,13 +3,18 @@ const PageLayout = ({children,
     onBack = () => {},
     extraCls = ""
 }) => {
-    return <div className="w-full h-screen bg-gray-200 relative flex flex-col overflow-hidden">
+    return <div className="w-full h-screen bg-gray-200 relative flex flex-col overflow-hidden mt-[40px] md:mt-0">
         {
-            showHeader ? <div className="absolute
+            showHeader ? <div className="
+            absolute
             top-0
             left-0
             right-0
-            h-[40px] bg-red-400 text-white flex items-center">
+            h-[40px]
+            bg-red-400
+            text-white
+            flex
+            items-center">
             <div className="p-4 cursor-pointer flex items-center gap-1"
                   onClick={() => {
                       onBack()
