@@ -3,11 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Service\AuthService;
 use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -17,35 +19,34 @@ final class ApiLoginController extends AbstractController
     public function login(
         Request $request,
         EntityManagerInterface $em,
-        JWTTokenManagerInterface $jwtManager,
-        UserPasswordHasherInterface $passwordHasher
+        AuthService $authService
     ): JsonResponse {
         $data = json_decode($request->getContent(), true);
         $email = $data['email'] ?? null;
 
         if (!$email) {
-            return $this->json(['error' => 'Email is required'], 400);
-        }
-        $user = $em->getRepository(User::class)->findOneBy(['email' => $email]);
-
-        if (!$user) {
-            $user = new User();
-            $user->setEmail($email);
-            $user->setPassword(
-                $passwordHasher->hashPassword($user, 'default')
-            ); // usa una contraseña dummy
-            $em->persist($user);
-            $em->flush();
+            return $this->json([
+                'error' => 'Email is required'
+            ], Response::HTTP_BAD_REQUEST);
         }
 
-        $token = $jwtManager->create($user);
+        try {
+            $result = $authService->handleLoginOrRegister($email);
+            $user = $result["user"];
+            $token = $result["token"];
+        }catch (\Exception $e) {
+            return $this->json([
+                "data" => null,
+                "errors" => [$e->getMessage()]
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
 
         return $this->json([
             "data" => [
                 'user' => $user->getUserIdentifier(),
                 'token' => $token,
             ],
-            "errors" => [],
         ]);
     }
 }

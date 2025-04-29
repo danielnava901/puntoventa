@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Product;
 use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
+use App\Service\OrderService;
+use App\Service\ProductService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -21,37 +23,26 @@ final class ProductController extends AbstractController
     #[Route('/', name: 'product_get_all', methods: ["GET"])]
     public function getProducts(
         Request $request,
-        ProductRepository $productRepository,
+        ProductService $productService,
         LoggerInterface $logger
     ): JsonResponse
     {
         $search = $request->query->get("search", "");
         $logger->debug("SEARCHHHHHHHH ".$search);
 
-        $products = $productRepository
-            ->createQueryBuilder('product')
-            ->where("product.name LIKE :search ")
-            ->setParameter('search', '%' . $search . '%')
-            ->getQuery()
-            ->getResult()
-        ;
-
-        $productArray = [];
-        foreach ($products as $product) {
-            $productArray[] = $product->toArray();
-        }
+        $products = $productService->getBySearch($search);
 
         return $this->json([
-            "data" => $productArray,
+            "data" => $products,
             "errors" => []
         ]);
     }
 
 
-    #[Route('/', name: 'product_new_all', methods: ["POST"])]
+    #[Route('/', name: 'product_new', methods: ["POST"])]
     public function create(
         Request $request,
-        CategoryRepository $categoryRepository,
+        ProductService $productService,
         ProductRepository $productRepository,
         EntityManagerInterface $entityManager
     ): JsonResponse
@@ -67,31 +58,19 @@ final class ProductController extends AbstractController
         $price = $data["price"];
         $quantity = $data["quantity"];
 
+        $newProduct = $productService->createProduct($name, $price);
 
-        $existingProduct = $productRepository->findOneBy(["name" => $name]);
-        if(!empty($existingProduct)) {
+        if(!$newProduct) {
             return $this->json([
-                "data" => array_merge($existingProduct->toArray(), ["quantity" => $quantity]),
-                "exists" => true,
-                "errors" => []
-            ]);
+                "data" => null,
+                "errors" => ["Error al crear producto"]
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-
-
-        $newProduct = new Product();
-        $category = $categoryRepository->find(1);
-        $newProduct->setName($name)
-            ->setCategory($category)
-            ->setUnitPrice($price)
-        ;
-
-        $entityManager->persist($newProduct);
-        $entityManager->flush();
 
 
         return $this->json([
             "data" => array_merge($newProduct->toArray(), ["quantity" => $quantity]),
             "errors" => []
-        ]);
+        ], Response::HTTP_CREATED);
     }
 }

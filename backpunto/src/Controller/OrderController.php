@@ -10,6 +10,7 @@ use App\Repository\OrderProductRepository;
 use App\Repository\OrderRepository;
 use App\Repository\ProductRepository;
 use App\Repository\UserRepository;
+use App\Service\OrderService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -52,10 +53,7 @@ final class OrderController extends AbstractController
     public function newUserOrder(
         #[CurrentUser] User $user,
         Request $request,
-        OrderRepository $orderRepository,
-        ProductRepository $productRepository,
-        EntityManagerInterface $entityManager,
-        LoggerInterface $logger
+        OrderService $orderService
     ) : JsonResponse
     {
 
@@ -67,40 +65,24 @@ final class OrderController extends AbstractController
             strlen(trim($data["order_name"])) === 0
         ) {
             return $this->json([
-                "error" => "No hay datos"
+                "data" => null,
+                "errors" => ["No hay datos"]
             ], Response::HTTP_BAD_REQUEST);
         }
 
-        $order = $orderRepository->createSimpleOrder($user, $data["order_name"]);
-
-        if(isset($data["products"])) {
-            $products = $data["products"];
-            $total = 0.00;
-
-            foreach ($products as $product) {
-                $productObj = $productRepository->find($product["id"]);
-                $newOrderProduct = new OrderProduct();
-                $newOrderProduct
-                    ->setOrderId($order)
-                    ->setQuantity($product["quantity"])
-                    ->setPrice((float)$product["quantity"] * $product["unit_price"])
-                    ->setCreatedAt(new \DateTimeImmutable())
-                    ->setProduct($productObj)
-                ;
-                $entityManager->persist($newOrderProduct);
-
-                $total = $total + (float)$product["quantity"] * $product["unit_price"];
-            }
-
-            $order->setTotal($total);
-            $entityManager->persist($order);
-            $entityManager->flush();
+        try {
+            $order = $orderService->createOrder($user, $data['order_name'], $data['products'] ?? []);
+        } catch (\Exception $e) {
+            return $this->json([
+                "data" => null,
+                "errors" => [$e->getMessage()]
+            ], Response::HTTP_BAD_REQUEST);
         }
 
         return $this->json([
             "data" => $order->toArray(),
             "errors" => []
-        ]);
+        ], Response::HTTP_CREATED);
     }
 
 
@@ -124,61 +106,28 @@ final class OrderController extends AbstractController
         int $orderId,
         OrderRepository $orderRepository,
         ProductRepository $productRepository,
-        OrderProductRepository $orderProductRepository,
-        EntityManagerInterface $entityManager
+        OrderService $orderService
     ): JsonResponse
     {
         $quantity = $request->query->get("quantity", 1);
         $data = json_decode($request->getContent(), true);
         $productId = $data["productId"];
-        $order = $orderRepository->find($orderId);
-        $product = $productRepository->find($productId);
-        $orderTotal = $order->getTotal();
 
-        $newOrderProduct = $orderProductRepository->createQueryBuilder("op")
-            ->where(" op.orderId = :orderId ")
-            ->andWhere(" op.product = :productId")
-            ->setParameter("orderId", $orderId)
-            ->setParameter("productId", $productId)
-            ->getQuery()
-            ->getResult()
-        ;
+        $orderProduct = $orderService->addOrderProduct($orderId, $productId, $quantity);
 
-        if(!empty($newOrderProduct)) {
-            $newOrderProduct = $newOrderProduct[0];
 
-            $prevQuantity = $newOrderProduct->getQuantity();
-            $prevPrice = $newOrderProduct->getPrice();
-
-            $orderTotal = $orderTotal + ($product->getUnitPrice() * $quantity );
-            $newOrderProduct->setQuantity($prevQuantity + $quantity);
-            $newOrderProduct->setPrice($prevPrice + ($product->getUnitPrice() * $quantity ));
-
-        }else {
-            $newOrderProduct = new OrderProduct();
-            $orderTotal = $orderTotal + $product->getUnitPrice() * $quantity;
-            $newOrderProduct
-                ->setOrderId($order)
-                ->setProduct($product)
-                ->setPrice($product->getUnitPrice() * $quantity)
-                ->setCreatedAt(new \DateTimeImmutable())
-                ->setQuantity($quantity)
-            ;
-
+        if(!$orderProduct) {
+            return $this->json([
+                "errors" => ["Order or product not found"]
+            ], Response::HTTP_NOT_FOUND);
         }
-
-        $order->setTotal($orderTotal);
-        $entityManager->persist($newOrderProduct);
-        $entityManager->persist($order);
-        $entityManager->flush();
-
 
 
         return $this->json([
             "data" => [
                 "product_id" => $productId,
                 "order_id" => $orderId,
-                'order_product' => $newOrderProduct->toArray()
+                'order_product' => $orderProduct->toArray()
             ],
             "erros" => [],
         ]);
@@ -190,16 +139,17 @@ final class OrderController extends AbstractController
     public function closeOrder(
         Request $request,
         int $orderId,
-        OrderRepository $orderRepository,
-        EntityManagerInterface $entityManager
+        OrderService $orderService
     ): JsonResponse
     {
-        $order = $orderRepository->find($orderId);
-        $order->setStatus(OrderStatus::STATUS_CLOSED);
-        $order->setClosedAt(new \DateTimeImmutable());
+        $order = $orderService->close($orderId);
 
-        $entityManager->persist($order);
-        $entityManager->flush();
+        if(!$order) {
+            $this->json([
+                "data" => null,
+                "errors" => ["Order not find"]
+            ]);
+        }
 
         return $this->json([
             "data" => [
