@@ -85,15 +85,15 @@ const NewOrderPage = () => {
     }, 0);
 
     return (
-        <PageLayout showHeader={false}>
+        <PageLayout showHeader={false} >
             <div className="w-full flex items-center justify-between mb-8">
                 <Title>Nueva Orden</Title>
                 <PLink path="/punto"
                        extraCls="text-4xl font-bold cursor-pointer hover:opacity-75">&times;</PLink>
             </div>
-            <div className="w-full flex gap-4">
+            <div className="w-full flex gap-4 h-screen overflow-hidden">
                 <div className="w-full md:min-w-1/2">
-                    <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-4 h-screen overflow-hidden pb-8">
                         <Input
                             sty="underline"
                             input={comensal}
@@ -116,14 +116,20 @@ const NewOrderPage = () => {
                                 Prod ({totalUnitProducts})
                             </span>
                         </div>
-                        <ProductList onClickProduct={(product) => {
+                        <div className="flex-1 overflow-auto mb-8">
+                            <ProductList onClickProduct={(product) => {
                                 onSelectProduct(product)
-                        }}/>
-                        <Button onClick={onSubmit}>
-                            Crear orden
-                        </Button>
+                            }}/>
+                        </div>
+
+                        <div className="h-[200px]">
+                            <Button  onClick={onSubmit}>
+                                Crear orden
+                            </Button>
+                        </div>
                     </div>
                 </div>
+
                 {/*Muestra Si la pantalla es grande (web)*/}
                 {
                     windowWidth > 768 ? <div className="md:min-w-1/2 overflow-auto flex-1">

@@ -19,7 +19,6 @@ const OrderPage = () => {
     const navigate = useNavigate();
 
     const addProduct = async (product) => {
-        console.log("prod", product)
         let {id, quantity = 1} = product;
         await sender({
             url: `http://localhost:8000/api/order/${orderId}/products?quantity=${quantity}`,
@@ -45,9 +44,9 @@ const OrderPage = () => {
         return prev + Number(currentValue.quantity)
     }, 0);
 
-    return <PageLayout onBack={() => {navigate("/punto")}} extraCls="h-full">
+    return <PageLayout onBack={() => {navigate("/punto")}} extraCls="h-screen">
         <div className="w-full flex h-full">
-            <div className="flex flex-col gap-4 flex-1 px-8">
+            <div className="flex flex-col gap-4 flex-1 px-8 h-[calc(100vh - 100px)] overflow-hidden">
                 <div className="flex gap-4 justify-between items-center">
                     <div className="flex gap-4">
                         <Title>Orden #{orderId}</Title>
@@ -62,8 +61,9 @@ const OrderPage = () => {
                     `}>{consts[order.status]}</div>
                 </div>
 
-                {/*Esta parte Oculto para grandes pantallas, solo para moviles */}
-                <div className="flex
+                {/*Esta parte Oculto para grandes pantallas, solo para móviles */}
+                <div className="
+                    flex
                     md:hidden
                     justify-end
                     items-center
@@ -91,11 +91,13 @@ const OrderPage = () => {
                     </span>
                 </div>
 
-                <ProductList
-                    extClass=""
-                    onClickProduct={async (product, quantity = 1) => {
-                    await addProduct(product)
-                }}/>
+                <div className="flex-1 overflow-auto mb-8">
+                    <ProductList
+                        extClass=""
+                        onClickProduct={async (product, quantity = 1) => {
+                            await addProduct(product)
+                        }}/>
+                </div>
             </div>
             <div className={`
                 min-w-full

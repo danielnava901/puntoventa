@@ -18,6 +18,7 @@ const ProductList = ({onClickProduct, extClass=""}) => {
             sty="search"
             onChange={(input) => {setSearch(input)}} />
         <NewProductForm onAddProduct={onClickProduct} />
+
         <GridLayout>
             {
                 products.map(product => {
