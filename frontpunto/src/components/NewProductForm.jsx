@@ -22,13 +22,14 @@ export const NewProductForm = ({onAddProduct}) => {
         }
 
         let response = await sender({
-            url: "http://localhost:8000/api/product/new",
+            url: "http://localhost:8000/api/product/",
+            method: "POST",
             data: newProduct,
             token
         });
 
-        console.log(response);
-        onAddProduct(response.product);
+
+        if(!!response) onAddProduct(response);
         setIsOpen(false);
         setNewProduct(initValue);
     }

@@ -25,7 +25,7 @@ const sender = async ({url, data = {}, token = null, method = "POST"}) => {
     }
     response = await response.json();
 
-    return response;
+    return response.data;
 }
 
 export {sender};

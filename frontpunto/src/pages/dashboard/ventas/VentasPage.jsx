@@ -19,7 +19,7 @@ const VentasPage = () => {
             method: "GET",
             token
         });
-        setOrders(response.orders);
+        if(!!response) setOrders(response);
     }
 
     useEffect(() => {

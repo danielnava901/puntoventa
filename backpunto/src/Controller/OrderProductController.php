@@ -15,28 +15,29 @@ final class OrderProductController extends AbstractController
     /**
      * @throws \Doctrine\DBAL\Exception
      */
-    #[Route('/all', name: 'app_order_product_all')]
+    #[Route('/', name: 'app_order_product_all', methods: ["GET"])]
     public function getAll(
         Request $request,
         OrderProductRepository $orderProductRepository
     ): JsonResponse
     {
-        $data = $request->getContent();
-        $data = json_decode($data, true);
+        $desde = $request->query->get("desde", null);
+        $hasta = $request->query->get("hasta", null);
 
-        if( empty($data) ||
-            !isset($data["desde"])  ||
-            !isset($data["hasta"])
+
+        if( !isset($desde)  ||
+            !isset($hasta)
         ) {
             return $this->json([
                 "error" => "No hay datos"
             ], Response::HTTP_BAD_REQUEST);
         }
 
-        $products = $orderProductRepository->getAllOrderProducts($data["desde"], $data["hasta"]);
+        $products = $orderProductRepository->getAllOrderProducts($desde, $hasta);
 
         return $this->json([
-            "data" => $products
+            "data" => $products,
+            "errors" => []
         ]);
     }
 }

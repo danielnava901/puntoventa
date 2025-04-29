@@ -42,12 +42,13 @@ final class ProductController extends AbstractController
         }
 
         return $this->json([
-            "products" => $productArray
+            "data" => $productArray,
+            "errors" => []
         ]);
     }
 
 
-    #[Route('/new', name: 'product_new_all', methods: ["POST"])]
+    #[Route('/', name: 'product_new_all', methods: ["POST"])]
     public function create(
         Request $request,
         CategoryRepository $categoryRepository,
@@ -70,8 +71,9 @@ final class ProductController extends AbstractController
         $existingProduct = $productRepository->findOneBy(["name" => $name]);
         if(!empty($existingProduct)) {
             return $this->json([
-                "exist" => true,
-                "product" => array_merge($existingProduct->toArray(), ["quantity" => $quantity])
+                "data" => array_merge($existingProduct->toArray(), ["quantity" => $quantity]),
+                "exists" => true,
+                "errors" => []
             ]);
         }
 
@@ -88,7 +90,8 @@ final class ProductController extends AbstractController
 
 
         return $this->json([
-            "product" => array_merge($newProduct->toArray(), ["quantity" => $quantity])
+            "data" => array_merge($newProduct->toArray(), ["quantity" => $quantity]),
+            "errors" => []
         ]);
     }
 }

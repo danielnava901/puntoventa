@@ -11,8 +11,8 @@ const useOrder = (orderId, trigger) => {
             token,
             method: "GET"
         });
-        const {data} = response;
-        setOrder(data);
+
+        if(!!response) setOrder(response);
     }
 
     useEffect(() => {

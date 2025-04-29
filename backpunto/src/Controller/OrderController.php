@@ -42,12 +42,13 @@ final class OrderController extends AbstractController
         }
 
         return $this->json([
-            "orders" => $orderArray,
+            "data" => $orderArray,
+            "errors" => [],
         ], Response::HTTP_OK);
     }
 
 
-    #[Route('/new', name: 'order_new_user_order', methods: ["POST"])]
+    #[Route('/', name: 'order_new_user_order', methods: ["POST"])]
     public function newUserOrder(
         #[CurrentUser] User $user,
         Request $request,
@@ -58,7 +59,7 @@ final class OrderController extends AbstractController
     ) : JsonResponse
     {
 
-        $logger->debug("ENTRAMOS .... !!!!!!!!!!!!!!!!!!!!!");
+        //$logger->debug("ENTRAMOS .... !!!!!!!!!!!!!!!!!!!!!");
         $data = json_decode($request->getContent(), true);
 
         if( empty($data) ||
@@ -87,7 +88,6 @@ final class OrderController extends AbstractController
                     ->setProduct($productObj)
                 ;
                 $entityManager->persist($newOrderProduct);
-                $entityManager->flush();
 
                 $total = $total + (float)$product["quantity"] * $product["unit_price"];
             }
@@ -98,7 +98,8 @@ final class OrderController extends AbstractController
         }
 
         return $this->json([
-            "data" => $order->toArray()
+            "data" => $order->toArray(),
+            "errors" => []
         ]);
     }
 
@@ -111,16 +112,16 @@ final class OrderController extends AbstractController
         $order = $orderRepository->find($orderId);
 
         return $this->json([
-            "data" => $order->toArray()
+            "data" => $order->toArray(),
+            "errors" => []
         ]);
     }
 
 
-    #[Route('/{orderId}/addProduct/{productId}', name: 'order_add_product_to_order',
-        methods: ["POST"])]
+
+    #[Route('/{orderId}/products', name: 'order_add_product_to_order', methods: ["POST"])]
     public function addProduct(Request $request,
         int $orderId,
-        int $productId,
         OrderRepository $orderRepository,
         ProductRepository $productRepository,
         OrderProductRepository $orderProductRepository,
@@ -128,6 +129,8 @@ final class OrderController extends AbstractController
     ): JsonResponse
     {
         $quantity = $request->query->get("quantity", 1);
+        $data = json_decode($request->getContent(), true);
+        $productId = $data["productId"];
         $order = $orderRepository->find($orderId);
         $product = $productRepository->find($productId);
         $orderTotal = $order->getTotal();
@@ -172,30 +175,18 @@ final class OrderController extends AbstractController
 
 
         return $this->json([
-            "product_id" => $productId,
-            "order_id" => $orderId,
-            'order_product' => $newOrderProduct->toArray()
+            "data" => [
+                "product_id" => $productId,
+                "order_id" => $orderId,
+                'order_product' => $newOrderProduct->toArray()
+            ],
+            "erros" => [],
         ]);
     }
 
 
-    #[Route('/{orderId}/getProducts', name: 'order_get_order_products', methods: ["GET"])]
-    public function getOrderProducts(
-        Request $request,
-        int $orderId,
-        OrderProductRepository $orderProductRepository
-    ): JsonResponse
-    {
-        $oP = $orderProductRepository->find($orderId);
 
-
-        return $this->json([
-            "data" => $oP->toArray()
-        ]);
-    }
-
-
-    #[Route('/{orderId}/close', name: 'order_close_order', methods: ["POST"])]
+    #[Route('/{orderId}', name: 'order_close_order', methods: ["PATCH"])]
     public function closeOrder(
         Request $request,
         int $orderId,
@@ -211,7 +202,11 @@ final class OrderController extends AbstractController
         $entityManager->flush();
 
         return $this->json([
-            "order" => $order->toArray()
+            "data" => [
+                "order" => $order->toArray(),
+                "status" => OrderStatus::STATUS_CLOSED,
+            ],
+            "errors" => []
         ]);
     }
 

@@ -15,8 +15,9 @@ const useProducts = (search) => {
             token,
             method: "GET"
         });
-        const {products} = response;
-        setProducts(products)
+
+
+        if(!!response) setProducts(response)
     }
 
     useEffect(() => {

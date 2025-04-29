@@ -19,19 +19,20 @@ const OrderPage = () => {
     const navigate = useNavigate();
 
     const addProduct = async (product) => {
-        let quantity = product.quantity || 1;
-        const response = await sender({
-            url: `http://localhost:8000/api/order/${orderId}/addProduct/${product.id}?quantity=${quantity}`,
+        console.log("prod", product)
+        let {id, quantity = 1} = product;
+        await sender({
+            url: `http://localhost:8000/api/order/${orderId}/products?quantity=${quantity}`,
             token,
-            data: {productId: product.id}
+            data: {productId: id}
         });
         setTrigger(prev => prev + 1);
     }
 
     const onClickClose = async () => {
-        const response = await sender({
-            url: `http://localhost:8000/api/order/${orderId}/close`,
-            method: "POST",
+        await sender({
+            url: `http://localhost:8000/api/order/${orderId}`,
+            method: "PATCH",
             token
         });
 

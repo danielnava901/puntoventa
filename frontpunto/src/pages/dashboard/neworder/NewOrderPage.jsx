@@ -64,7 +64,7 @@ const NewOrderPage = () => {
         }
 
         const response = await sender({
-            url: "http://localhost:8000/api/order/new",
+            url: "http://localhost:8000/api/order/",
             data: {
                 order_name: comensal.value,
                 products
@@ -73,8 +73,8 @@ const NewOrderPage = () => {
         });
 
         if(!!response) {
-            const {data} = response;
-            navigate(`/punto/orden/${data.id}`)
+            const {id} = response;
+            navigate(`/punto/orden/${id}`)
         }else {
             navigate(`/punto`);
         }

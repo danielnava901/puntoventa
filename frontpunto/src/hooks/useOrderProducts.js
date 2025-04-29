@@ -7,13 +7,16 @@ const useOrderProducts = (desde, hasta) => {
     const [products, setProducts] = useState([]);
 
     const getData = async () => {
+        const url = new URL("http://localhost:8000/api/orderProduct");
+        url.searchParams.set("desde", desde);
+        url.searchParams.set("hasta", hasta)
         const response = await sender({
-            url: "http://localhost:8000/api/orderProduct/all",
+            url: url,
             token,
-            data: {desde, hasta}
+            method: "GET"
         });
-        const {data} = response;
-        setProducts(data);
+
+        if(!!response) setProducts(response);
     }
 
     useEffect(() => {
