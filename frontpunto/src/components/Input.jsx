@@ -1,12 +1,12 @@
 import {useState} from "react";
 
-const Input = ({input,
-                   onChange, sty= "normal" }) => {
+const Input = ({input, onChange, sty= "normal" }) => {
 
     const styles = {
         "normal": "border h-[40px] ",
         "underline": "border-b-4 bg-gray-300 p-4 text-2xl rounded",
-        "search": "border border-gray-300 p-2 bg-white"
+        "search": "border border-gray-300 p-2 bg-white",
+        "login": "border border-gray-400 rounded p-2 h-[50px] w-full p-4"
     }
 
     input = {value: "", type: "normal", error: false, placeholder: "", ...input}

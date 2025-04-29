@@ -2,6 +2,7 @@ import {Outlet} from "react-router";
 import PLink from "../../components/PLink.jsx";
 import {useLayoutEffect, useState} from "react";
 import useWindowWidth from "../../hooks/useWindowWidth.js";
+import Logo from "../../components/Logo.jsx";
 
 const Layout = () => {
     const [showMenu, setShowMenu] = useState(false);
@@ -45,7 +46,7 @@ const Layout = () => {
                 </svg>
 
             </span>
-            <span className="flex-1 h-full flex justify-center items-center">ICON</span>
+            <Logo />
         </div>
         <div className={`
             min-w-[200px]
@@ -57,7 +58,9 @@ const Layout = () => {
             ${letShowMenu ? "absolute top-10 left-0 z-1 h-full w-10/12" : ""}
         `}>
             {
-                !letShowMenu ? <div className="h-[40px] bg-red-400 flex justify-center items-center">ICON</div> : null
+                !letShowMenu ? <div className="h-[40px] flex justify-center items-center">
+                    <Logo />
+                </div> : null
             }
 
             <div className="flex flex-col gap-4 mt-4">
