@@ -54,6 +54,13 @@ cp .env .env.local
 php bin/console doctrine:database:create
 php bin/console doctrine:migrations:migrate
 
+# Crea llaves para usar jwt
+php bin/console lexik:jwt:generate-keypair
+# Despues de esto configurar su archvio .en
+#JWT_SECRET_KEY=%kernel.project_dir%/config/jwt/private.pem
+#JWT_PUBLIC_KEY=%kernel.project_dir%/config/jwt/public.pem
+#JWT_PASSPHRASE=__secretpassphrase__
+
 
 # Levantar servidor de desarrollo
 symfony server:start
