@@ -63,7 +63,7 @@ php -S localhost:8000 -t public
 
 ---
 
-### 3. Levantar el frontend (React)
+### 3. Levantar el frontend (React) modo dev
 
 ```bash
 cd ../frontpunto
@@ -74,19 +74,20 @@ npm install
 yarn install
 
 # Levantar el servidor de desarrollo
-npm start
+npm run dev
 # o
-yarn start
+yarn dev
 ```
+
 
 
 ---
 
-## API Base URL
+## Sitio Web
 
-Por defecto, la API Symfony está disponible en:
+Por defecto, la interfáz gráfica está disponible en:
 ```
-http://localhost:8000/api
+http://localhost:5173/
 ```
 
 ---
