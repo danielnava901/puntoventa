@@ -3,7 +3,6 @@ import useProducts from "../hooks/useProducts.js";
 import Input from "./Input.jsx";
 import {GridLayout} from "./GridLayout";
 import CardProduct from "./CardProduct.jsx";
-import Modal from "./Modal.jsx";
 import NewProductForm from "./NewProductForm.jsx";
 
 const ProductList = ({onClickProduct, extClass=""}) => {

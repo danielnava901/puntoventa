@@ -6,8 +6,8 @@ from backpuntodj.models.product import Product
 class OrderProduct(models.Model):
     order_id = models.ForeignKey(Order, models.DO_NOTHING)
     product = models.ForeignKey(Product, models.DO_NOTHING)
-    quantity = models.TextField()
-    price = models.TextField()
+    quantity = models.IntegerField()
+    price = models.FloatField()
     created_at = models.DateTimeField()
 
     class Meta:

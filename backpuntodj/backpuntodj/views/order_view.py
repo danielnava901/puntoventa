@@ -26,6 +26,9 @@ class OrderView(ViewSet):
         products = request.data.get("products", [])
         user = request.user
 
+        print({
+            "entrando": "CREATE"
+        })
         if order_name is False:
             return Response({
                 "data": False,
@@ -86,9 +89,17 @@ class OrderView(ViewSet):
             "errors": []
         })
 
-    @action(detail=True, methods=["post"], url_path="products/(?P<product_id>[^/.]+)")
-    def products(self, request, pk=None, product_id=None):
+    @action(detail=True, methods=["post"], url_path="products")
+    def products(self, request, pk=None):
         quantity = request.query_params.get("quantity", 1)
+        product_id = request.data.get("productId")
+
+        print(":::::PRODUCT_ID:::::")
+        print(product_id)
+        if not product_id:
+            return Response({
+                "errors": ["Not product_id in request"]
+            }, status=status.HTTP_404_NOT_FOUND)
 
         order_product = OrderService.add_order_product(pk, product_id, quantity)
 
@@ -96,8 +107,6 @@ class OrderView(ViewSet):
             return Response({
                 "errors": ["Order or product not found"]
             }, status=status.HTTP_404_NOT_FOUND)
-
-        # serializer = OrderProductSerializer(order_product, many=True)
 
         return Response({
             "data": {

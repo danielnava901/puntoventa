@@ -21,7 +21,7 @@ const OrderPage = () => {
     const addProduct = async (product) => {
         let {id, quantity = 1} = product;
         await sender({
-            url: `http://localhost:8000/api/order/${orderId}/products?quantity=${quantity}`,
+            url: `http://localhost:8000/api/order/${orderId}/products/?quantity=${quantity}`,
             token,
             data: {productId: id}
         });
