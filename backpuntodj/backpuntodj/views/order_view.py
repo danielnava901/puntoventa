@@ -5,7 +5,6 @@ from rest_framework import status
 from backpuntodj.models.order import Order
 from backpuntodj.models.order_product import OrderProduct
 from backpuntodj.serializers.order_serializer import OrderSerializer
-from backpuntodj.serializers.order_product_serializer import OrderProductSerializer
 from backpuntodj.serializers.product_serializer import ProductSerializer
 from backpuntodj.services.order_service import OrderService
 
@@ -13,7 +12,7 @@ from backpuntodj.services.order_service import OrderService
 class OrderView(ViewSet):
     def list(self, request):
         user = request.user
-        orders = Order.objects.filter(user=user)
+        orders = Order.objects.filter(user=user, status="OPEN")
         serializer = OrderSerializer(orders, many=True)
 
         return Response({
