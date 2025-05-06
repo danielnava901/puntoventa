@@ -6,6 +6,7 @@ from backpuntodj.models.order import Order
 from backpuntodj.models.order_product import OrderProduct
 from backpuntodj.serializers.order_serializer import OrderSerializer
 from backpuntodj.serializers.order_product_serializer import OrderProductSerializer
+from backpuntodj.serializers.product_serializer import ProductSerializer
 from backpuntodj.services.order_service import OrderService
 
 
@@ -47,7 +48,25 @@ class OrderView(ViewSet):
             return Response({"error": "Order not found"}, status=status.HTTP_404_NOT_FOUND)
 
         serializer = OrderSerializer(order)
-        return Response(serializer.data)
+        products = OrderProduct.objects.filter(order_id=order)
+        # products = [op.product for op in products]
+
+        combined_products = []
+        for op in products:
+            combined_products.append({
+                **ProductSerializer(op.product).data,
+                "subtotal": op.price,
+                "quantity": op.quantity,
+                "created_at": op.created_at
+            })
+
+        data = serializer.data
+        data["products"] = combined_products
+
+        return Response({
+            "data": data,
+            "errors1": []
+        })
 
     def partial_update(self, request, pk=None):
         try:

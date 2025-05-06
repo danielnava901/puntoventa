@@ -175,7 +175,8 @@ class Order
         $orderProducts = $this->getOrderProducts();
         foreach ($orderProducts as $orderProduct) {
             $products[] = array_merge($orderProduct->getProduct()->toArray(), [
-                "subtotal" => number_format((float)$orderProduct->getPrice(), 2, '.', ','),
+                "subtotal" => number_format((float)$orderProduct->getPrice(), 2,
+                    '.', ','),
                 "quantity" => $orderProduct->getQuantity()
             ]);
         }

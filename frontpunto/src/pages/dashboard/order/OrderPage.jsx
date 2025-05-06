@@ -30,7 +30,7 @@ const OrderPage = () => {
 
     const onClickClose = async () => {
         await sender({
-            url: `http://localhost:8000/api/order/${orderId}`,
+            url: `http://localhost:8000/api/order/${orderId}/`,
             method: "PATCH",
             token
         });
