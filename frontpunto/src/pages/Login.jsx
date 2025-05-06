@@ -4,8 +4,13 @@ import {sender} from "../utils/sender.js";
 import useUserStore from "../store/useUserStore.jsx";
 import {useNavigate} from "react-router";
 import {Button} from "../components/Button";
-import Title from "../components/Title.jsx";
 import Logo from "../components/Logo.jsx";
+
+
+const clsContainer = "flex items-center w-full h-full flex-col md:flex-row";
+const clsLeftSide = "w-full md:w-1/2 bg-gray-800 h-[65px] md:h-full flex flex-col items-center justify-center gap-4";
+const clsRightSide = "w-full md:w-1/2 flex justify-center items-center flex-1";
+const clsForm = "flex gap-4 flex-col p-4 w-10/12 md:w-8/12";
 
 const Login = () => {
     const {setToken, setUser, setIsAuthenticated} = useUserStore((state) => state);
@@ -49,28 +54,13 @@ const Login = () => {
 
     }
 
-    return <div className="
-                flex
-                items-center
-                w-full
-                h-full
-                flex-col
-                md:flex-row
-            ">
-                <div className="w-full md:w-1/2 bg-gray-800 h-[65px] md:h-full
-                    flex flex-col items-center justify-center gap-4">
+    return <div className={clsContainer}>
+                <div className={clsLeftSide}>
                     <img src="/images/login_il.svg" alt="Logo" className="w-8/12 hidden md:flex" />
                     <Logo />
                 </div>
-                <div className="w-full md:w-1/2 flex justify-center items-center flex-1">
-                    <form className="
-                        flex
-                        gap-4
-                        flex-col
-                        p-4
-                        w-10/12
-                        md:w-8/12
-                    ">
+                <div className={clsRightSide}>
+                    <form className={clsForm}>
                         <div className="">Email</div>
                         <Input
                             input={email}
