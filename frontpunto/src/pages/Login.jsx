@@ -34,7 +34,7 @@ const Login = () => {
 
         try {
             let response = await sender({
-                url: "http://localhost:8000/api/login/",
+                url: "http://localhost:8000/api/login",
                 data: {email: email.value}
             });
 

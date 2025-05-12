@@ -19,6 +19,7 @@ const sender = async <T = any>({
        token = null,
        method = "POST",
     }: SenderParams): Promise<SenderResponse<T>> => {
+    console.log(`Enviando a: ${url}`);
 
     const headers: Record<string, string> = {
         "Content-Type": "application/json",

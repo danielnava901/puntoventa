@@ -34,7 +34,8 @@ export default function LoginScreen() {
                 <TouchableOpacity
                         onPress={handleLogin}
                         style={styles.buttonContainer}>
-                    <Text style={styles.buttonText}>Entrar</Text>
+                    <Text style={styles.buttonText}>Entrar!</Text>
+
                 </TouchableOpacity>
                 {error && <Text style={{ color: "red" }}>{error}</Text>}
             </SafeAreaView>

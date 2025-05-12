@@ -1,35 +1,34 @@
+import 'react-native-gesture-handler'
 import useAuthStore from "@/hooks/useAuthStore";
 import {Redirect} from "expo-router";
 import { Drawer } from "expo-router/drawer";
-
-
-
-export const unstable_settings = {
-    initialRouteName: '(punto)/ventas',
-};
-
+import {GestureHandlerRootView} from "react-native-gesture-handler";
+import CustomDrawerContent from "@/components/CustomDrawerContent";
 
 
 export default function PuntoLayout() {
     const { isAuthenticated } = useAuthStore();
 
-    console.log("PUNTO LAYOUT.....")
     if(!isAuthenticated) {
-        return <Redirect href="/login"/>
+        return <Redirect href="/(auth)/login"/>
     }
 
-    console.log("PUNTO LAYOUT.....", unstable_settings)
     return (
-        <Drawer screenOptions={{ headerShown: false }} initialRouteName="ventas">
-            <Drawer.Screen
-                name="ventas"
-                options={{ drawerLabel: "Ventas", title: "Ventas" }}
-            />
-            <Drawer.Screen
-                name="reportes"
-                options={{ drawerLabel: "Reportes", title: "Reportes" }}
-            />
-        </Drawer>
+        <GestureHandlerRootView >
+            <Drawer
+                drawerContent={CustomDrawerContent}
+
+            >
+                <Drawer.Screen name="index" options={{
+                    drawerLabel: "Ventas",
+                    headerTitle: "Ventas",
+                }}></Drawer.Screen>
+                <Drawer.Screen name="reportes" options={{
+                    drawerLabel: "Reportes"
+                }}></Drawer.Screen>
+
+            </Drawer>
+        </GestureHandlerRootView>
     );
 }
 

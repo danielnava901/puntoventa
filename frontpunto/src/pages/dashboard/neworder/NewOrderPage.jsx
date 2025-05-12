@@ -1,5 +1,5 @@
 import Input from "../../../components/Input.jsx";
-import {useState} from "react";
+import {useMemo, useState} from "react";
 import {useNavigate} from "react-router";
 import {sender} from "../../../utils/sender.js";
 import useUserStore from "../../../store/useUserStore.jsx";
@@ -72,17 +72,16 @@ const NewOrderPage = () => {
             token
         });
 
-        if(!!response) {
-            const {id} = response;
-            navigate(`/punto/orden/${id}`)
+        if(response?.id) {
+            navigate(`/punto/orden/${response.id}`)
         }else {
             navigate(`/punto`);
         }
     }
 
-    const totalUnitProducts = products.reduce((prev, currentValue) => {
-        return prev + currentValue.quantity
-    }, 0);
+    const totalUnitProducts = useMemo(() => {
+        return products.reduce((acc, prod) => acc + prod.quantity, 0);
+    }, [products]);
 
     return (
         <PageLayout showHeader={false} >
@@ -103,7 +102,6 @@ const NewOrderPage = () => {
                         <div className="
                             flex
                             w-full
-                            items-center
                             justify-between
                             items-end
                         ">

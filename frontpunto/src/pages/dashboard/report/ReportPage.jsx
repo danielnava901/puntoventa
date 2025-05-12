@@ -5,16 +5,23 @@ import {useState} from "react";
 import DateInput from "../../../components/DateInput.jsx";
 import Title from "../../../components/Title.jsx";
 
+const toEpochStart = (date) =>
+    Math.floor(new Date(date.getFullYear(), date.getMonth(),
+        date.getDate(), 0, 0, 0).getTime() / 1000);
+const toEpochEnd = (date) =>
+    Math.floor(new Date(date.getFullYear(), date.getMonth(),
+        date.getDate(), 23, 59, 59, 999).getTime() / 1000);
+
+
 export const ReportPage = () => {
     const today = new Date();
-    const [desde, setDesde] = useState(today);
-    const [hasta, setHasta] = useState(today);
-    const [desdeEpoch, setDesdeEpoch] = useState(Math.floor(
-        new Date(today.setHours(0, 0, 0, 0)).getTime() / 1000));
-    const [hastaEpoch, setHastaEpoch] = useState(Math.floor(
-        new Date(today.setHours(23, 59, 59, 999)).getTime() / 1000
-    ));
-    const {products} = useOrderProducts(desdeEpoch, hastaEpoch);
+    const [range, setRange] = useState({
+        desde: today,
+        hasta: today,
+        desdeEpoch: toEpochStart(today),
+        hastaEpoch: toEpochEnd(today),
+    });
+    const {products} = useOrderProducts(range.desdeEpoch, range.hastaEpoch);
 
 
     return (
@@ -26,22 +33,33 @@ export const ReportPage = () => {
                 <div className="flex flex-col">
                     <label htmlFor="desde" className="font-bold">Desde</label>
                     <DateInput
-                        initialDate={desde}
+                        initialDate={range.desde}
                         name="desde"
                         onChange={({date, seconds}) => {
-                            setDesde(date);
-                            setDesdeEpoch(seconds);
+                            //setDesde(date);
+                            //setDesdeEpoch(seconds);
+
+                            setRange(prev => ({
+                                ...prev,
+                                desde: date,
+                                desdeEpoch: toEpochStart(new Date(date))
+                            }));
                         }} />
                 </div>
                 <div className="flex flex-col">
                     <label htmlFor="hasta" className="font-bold">Hasta</label>
                     <DateInput
-                        initialDate={hasta}
+                        initialDate={range.hasta}
                         name="hasta"
                         onChange={({date, seconds}) => {
-
-                            setHasta(date);
-                            setHastaEpoch(seconds);
+                            //setHasta(date);
+                            //setHastaEpoch(seconds);
+                            console.log({date})
+                            setRange(prev => ({
+                                ...prev,
+                                hasta: date,
+                                hastaEpoch: toEpochStart(new Date(date))
+                            }));
                         }} />
                 </div>
             </div>
