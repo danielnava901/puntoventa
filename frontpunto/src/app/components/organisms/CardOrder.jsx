@@ -1,10 +1,8 @@
 import consts from "../../consts.js";
-import {useNavigate} from "react-router";
 import OrderSummay from "../molecules/OrderSummay.jsx";
 import Text from "../atoms/Text.jsx";
 
-export const CardOrder = ({order}) => {
-    const navigate = useNavigate();
+export const CardOrder = ({order, onClick}) => {
     return (
         <div className={`
             p-4
@@ -19,9 +17,7 @@ export const CardOrder = ({order}) => {
             border-b-6 
             ${consts.status_border[order.status]}
         `}
-        onClick={() => {
-          navigate(`/punto/orden/${order.id}`)
-        }}
+        onClick={onClick}
         >
             <OrderSummay order={order} />
             <Text className="text-xs">{order.diff}</Text>

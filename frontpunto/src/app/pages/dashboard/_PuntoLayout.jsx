@@ -1,10 +1,10 @@
 import {Outlet} from "react-router";
 import PLink from "../../components/atoms/PLink.jsx";
-import {useLayoutEffect, useState} from "react";
-import useWindowWidth from "../../hooks/useWindowWidth.js";
+import {useState} from "react";
+import useWindowWidth from "../../../hooks/useWindowWidth.js";
 import Logo from "../../components/molecules/Logo.jsx";
 
-const Layout = () => {
+const _PuntoLayout = () => {
     const [showMenu, setShowMenu] = useState(false);
     const {width: windowWidth} = useWindowWidth();
     let letShowMenu = false;
@@ -78,4 +78,4 @@ const Layout = () => {
     </div>
 }
 
-export default Layout;
+export default _PuntoLayout;

@@ -1,10 +1,11 @@
 import Input from "../components/atoms/Input.jsx";
 import {useState} from "react";
-import {sender} from "../utils/sender.js";
-import useUserStore from "../store/useUserStore.jsx";
+import useUserStore from "../../store/useUserStore.jsx";
 import {useNavigate} from "react-router";
 import {Button} from "../components/atoms/Button.jsx";
 import Logo from "../components/molecules/Logo.jsx";
+import UserLoginRepository from "../../domain/repositories/UserLoginRepository.js";
+import UserLoginService from "../../domain/services/UserLoginService.js";
 
 
 const clsContainer = "flex items-center w-full h-full flex-col md:flex-row";
@@ -21,26 +22,19 @@ const Login = () => {
         placeholder: "Email"
     });
     const navigate = useNavigate();
-    const isEmail = (email) => {
-        return /\S+@\S+\.\S+/.test(email);
-    }
+
+    const userLoginRepository = new UserLoginRepository();
+    const userLoginService = new UserLoginService(userLoginRepository);
 
     const onSubmit = async (ev) => {
         ev.preventDefault();
-        if(email.error || !isEmail(email.value)) {
-            alert("Formato de email incorrecto");
-            return;
-        }
-
         try {
-            let response = await sender({
-                url: "http://localhost:8000/api/login",
-                data: {email: email.value}
-            });
 
-            if(response !== null) {
-                setToken(response.token);
-                setUser(response.user);
+            let loginResponse = await userLoginService.execute(email.value);
+
+            if(loginResponse !== null) {
+                setToken(loginResponse.token);
+                setUser(loginResponse.user);
                 setIsAuthenticated(true);
                 navigate("/punto");
             }else {
@@ -50,13 +44,15 @@ const Login = () => {
             }
         }catch (e) {
             console.log("error", {e});
+            alert(e.message);
         }
 
     }
 
     return <div className={clsContainer}>
                 <div className={clsLeftSide}>
-                    <img src="/images/login_il.svg" alt="Logo" className="w-8/12 hidden md:flex" />
+                    <img src="/images/login_il.svg" alt="Logo"
+                         className="w-8/12 hidden md:flex" />
                     <Logo />
                 </div>
                 <div className={clsRightSide}>
@@ -68,7 +64,10 @@ const Login = () => {
                             onChange={(newEmail) => {
                                setEmail(newEmail)
                             }} />
-                        <Button extraCls="w-full" onClick={onSubmit}>Entrar</Button>
+                        <Button extraCls="w-full"
+                                onClick={onSubmit}>
+                            Entrar
+                        </Button>
                     </form>
                 </div>
             </div>

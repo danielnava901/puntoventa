@@ -1,4 +1,4 @@
-import useUserStore from "../store/useUserStore.jsx";
+import useUserStore from "../../store/useUserStore.jsx";
 import {Navigate, Outlet} from "react-router";
 
 const PrivateRoute = ({children}) => {

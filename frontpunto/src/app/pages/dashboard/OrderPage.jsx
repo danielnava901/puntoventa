@@ -1,48 +1,40 @@
-import PageLayout from "./PageLayout.jsx";
+import PageLayout from "../../components/layouts/PageLayout.jsx";
 import {useNavigate, useParams} from "react-router";
 import {useState} from "react";
-import {sender} from "../../utils/sender.js";
-import useUserStore from "../../store/useUserStore.jsx";
-import useOrder from "../../hooks/useOrder.js";
+import {sender} from "../../../utils/sender.js";
+import useUserStore from "../../../store/useUserStore.jsx";
+import useOrder from "../../../hooks/useOrder.js";
 import ProductList from "../../components/organisms/ProductList.jsx";
 import SimpleProductsTable from "../../components/molecules/SimpleProductsTable.jsx";
 import consts from "../../consts.js";
 import Title from "../../components/atoms/Title.jsx";
 import {Button} from "../../components/atoms/Button.jsx";
+import OrderRepository from "../../../domain/repositories/OrderRepository.js";
+import OrderService from "../../../domain/services/OrderService.js";
+
+const orderRepository = new OrderRepository()
+const orderService = new OrderService(orderRepository);
 
 const OrderPage = () => {
     const {token} = useUserStore(state => state);
     const [trigger, setTrigger] = useState(0);
     const [showTable, setShowTable] = useState(false);
     const {orderId} = useParams();
-    const {order} = useOrder(orderId, trigger);
+    const {order, totalUnitProducts} = useOrder(orderId, trigger);
     const navigate = useNavigate();
 
     const addProduct = async (product) => {
-        let {id, quantity = 1} = product;
-        await sender({
-            url: `http://localhost:8000/api/order/${orderId}/products?quantity=${quantity}`,
-            token,
-            data: {productId: id}
-        });
+        await orderService.addProductToOrder(orderId, product, token);
         setTrigger(prev => prev + 1);
     }
 
     const onClickClose = async () => {
-        await sender({
-            url: `http://localhost:8000/api/order/${orderId}`,
-            method: "PATCH",
-            token
-        });
-
+        await orderService.closeOrder(orderId);
         setTrigger(prev => prev + 1);
     }
 
     if(!order) return <div>Cargando</div>
 
-    const totalUnitProducts = order.products.reduce((prev, currentValue) => {
-        return prev + Number(currentValue.quantity)
-    }, 0);
 
     return <PageLayout showHeader={true}
                        onBack={() => {navigate("/punto")}}

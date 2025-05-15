@@ -1,5 +1,5 @@
 import {useState} from "react";
-import useProducts from "../../hooks/useProducts.js";
+import useProducts from "../../../hooks/useProducts.js";
 import Input from "../atoms/Input.jsx";
 import {GridLayout} from "../layouts/GridLayout.jsx";
 import CardProduct from "../molecules/CardProduct.jsx";

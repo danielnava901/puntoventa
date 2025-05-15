@@ -1,13 +1,13 @@
 import {useEffect, useState} from "react";
-import {sender} from "../../utils/sender.js";
-import useUserStore from "../../store/useUserStore.jsx";
+import {sender} from "../../../utils/sender.js";
+import useUserStore from "../../../store/useUserStore.jsx";
 import {useNavigate} from "react-router";
-import PageLayout from "./PageLayout.jsx";
+import PageLayout from "../../components/layouts/PageLayout.jsx";
 import Title from "../../components/atoms/Title.jsx";
 import {CardOrder} from "../../components/organisms/CardOrder.jsx";
 import {BigButton} from "../../components/atoms/BigButton.jsx";
 import {GridLayout} from "../../components/layouts/GridLayout.jsx";
-import useOrders from "../../hooks/useOrders.js";
+import useOrders from "../../../hooks/useOrders.js";
 
 const VentasPage = () => {
     const navigate = useNavigate();
@@ -24,12 +24,19 @@ const VentasPage = () => {
             <GridLayout>
                 {
                     orders.length === 0 && (
-                        <p className="text-center text-gray-500">No hay órdenes registradas.</p>
+                        <p className="text-center text-gray-500">
+                            No hay órdenes registradas.
+                        </p>
                     )
                 }
                 {
                     orders.map(order => {
-                        return <CardOrder key={order.id} order={order} />
+                        return <CardOrder key={order.id}
+                                          order={order}
+                                          onClick={() => {
+                                              navigate(`/punto/orden/${order.id}`)
+                                          }}
+                        />
                     })
                 }
             </GridLayout>

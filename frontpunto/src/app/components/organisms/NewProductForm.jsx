@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react";
 import Modal from "../molecules/Modal.jsx";
 import Title from "../atoms/Title.jsx";
-import {sender} from "../../utils/sender.js";
-import useUserStore from "../../store/useUserStore.jsx";
+import {sender} from "../../../utils/sender.js";
+import useUserStore from "../../../store/useUserStore.jsx";
 
 export const NewProductForm = ({onAddProduct}) => {
     const {token} = useUserStore(state => state);
