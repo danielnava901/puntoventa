@@ -1,16 +1,16 @@
-import Input from "../../../components/Input.jsx";
+import Input from "../../components/atoms/Input.jsx";
 import {useMemo, useState} from "react";
 import {useNavigate} from "react-router";
-import {sender} from "../../../utils/sender.js";
-import useUserStore from "../../../store/useUserStore.jsx";
-import PageLayout from "../PageLayout.jsx";
-import ProductList from "../../../components/ProductList.jsx";
-import SimpleProductsTable from "../../../components/SimpleProductsTable.jsx";
-import Title from "../../../components/Title.jsx";
-import PLink from "../../../components/PLink.jsx";
-import {Button} from "../../../components/Button";
-import useWindowWidth from "../../../hooks/useWindowWidth.js";
-import Modal from "../../../components/Modal.jsx";
+import {sender} from "../../utils/sender.js";
+import useUserStore from "../../store/useUserStore.jsx";
+import PageLayout from "./PageLayout.jsx";
+import ProductList from "../../components/organisms/ProductList.jsx";
+import SimpleProductsTable from "../../components/molecules/SimpleProductsTable.jsx";
+import Title from "../../components/atoms/Title.jsx";
+import PLink from "../../components/atoms/PLink.jsx";
+import {Button} from "../../components/atoms/Button.jsx";
+import useWindowWidth from "../../hooks/useWindowWidth.js";
+import Modal from "../../components/molecules/Modal.jsx";
 
 const NewOrderPage = () => {
     const {token} = useUserStore(state => state);
@@ -56,27 +56,39 @@ const NewOrderPage = () => {
         setProducts(updatedProducts);
     }
 
-    const onSubmit = async (ev) => {
-        ev.preventDefault();
-        if(comensal.error || comensal.value.trim().length === 0) {
-            alert("Ingrese el nombre del comensal")
-            return;
-        }
+    const isInvalidCustomerName = () => {
+        return comensal.error || comensal.value.trim().length === 0
+    }
 
-        const response = await sender({
+    const createOrder = async (name, products, token) => {
+        await sender({
             url: "http://localhost:8000/api/order/",
             data: {
-                order_name: comensal.value,
+                order_name: name,
                 products
             },
             token
         });
+    }
 
-        if(response?.id) {
-            navigate(`/punto/orden/${response.id}`)
+    const redirectToOrderPage = (order) => {
+        if(order?.id) {
+            navigate(`/punto/orden/${order.id}`)
         }else {
             navigate(`/punto`);
         }
+    }
+
+    const onSubmit = async (ev) => {
+        ev.preventDefault();
+        if(isInvalidCustomerName(comensal)) {
+            alert("Ingrese el nombre del comensal")
+            return;
+        }
+
+        const order = await createOrder(comensal.value, products, token);
+
+        redirectToOrderPage(order);
     }
 
     const totalUnitProducts = useMemo(() => {

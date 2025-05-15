@@ -1,10 +1,10 @@
-import Input from "../components/Input.jsx";
+import Input from "../components/atoms/Input.jsx";
 import {useState} from "react";
 import {sender} from "../utils/sender.js";
 import useUserStore from "../store/useUserStore.jsx";
 import {useNavigate} from "react-router";
-import {Button} from "../components/Button";
-import Logo from "../components/Logo.jsx";
+import {Button} from "../components/atoms/Button.jsx";
+import Logo from "../components/molecules/Logo.jsx";
 
 
 const clsContainer = "flex items-center w-full h-full flex-col md:flex-row";

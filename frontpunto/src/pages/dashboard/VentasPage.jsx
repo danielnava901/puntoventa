@@ -1,13 +1,13 @@
 import {useEffect, useState} from "react";
-import {sender} from "../../../utils/sender.js";
-import useUserStore from "../../../store/useUserStore.jsx";
+import {sender} from "../../utils/sender.js";
+import useUserStore from "../../store/useUserStore.jsx";
 import {useNavigate} from "react-router";
-import PageLayout from "../PageLayout.jsx";
-import Title from "../../../components/Title.jsx";
-import {CardOrder} from "../../../components/CardOrder";
-import {BigButton} from "../../../components/BigButton";
-import {GridLayout} from "../../../components/GridLayout";
-import useOrders from "../../../hooks/useOrders.js";
+import PageLayout from "./PageLayout.jsx";
+import Title from "../../components/atoms/Title.jsx";
+import {CardOrder} from "../../components/organisms/CardOrder.jsx";
+import {BigButton} from "../../components/atoms/BigButton.jsx";
+import {GridLayout} from "../../components/layouts/GridLayout.jsx";
+import useOrders from "../../hooks/useOrders.js";
 
 const VentasPage = () => {
     const navigate = useNavigate();

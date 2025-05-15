@@ -1,6 +1,6 @@
 export const BigButton = ({onClick, children}) => {
     return (
-        <span className="
+        <button className="
             flex
             justify-center
             items-center
@@ -15,6 +15,6 @@ export const BigButton = ({onClick, children}) => {
             hover:opacity-75
         "
               onClick={onClick}
-        >{children}</span>
+        >{children}</button>
     )
 }

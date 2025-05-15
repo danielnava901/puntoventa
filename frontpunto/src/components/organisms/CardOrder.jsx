@@ -1,5 +1,7 @@
-import consts from "../consts.js";
+import consts from "../../consts.js";
 import {useNavigate} from "react-router";
+import OrderSummay from "../molecules/OrderSummay.jsx";
+import Text from "../atoms/Text.jsx";
 
 export const CardOrder = ({order}) => {
     const navigate = useNavigate();
@@ -21,12 +23,8 @@ export const CardOrder = ({order}) => {
           navigate(`/punto/orden/${order.id}`)
         }}
         >
-            <div >
-                <div className="">#{order.id}{` `}</div>
-                <div className="fond-bold text-lg">{order.order_name}</div>
-                <div className="fond-bold text-sm">${order.total}</div>
-            </div>
-            <div className="text-xs">{order.diff}</div>
+            <OrderSummay order={order} />
+            <Text className="text-xs">{order.diff}</Text>
         </div>
     )
 }

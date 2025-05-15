@@ -1,8 +1,8 @@
 import {Outlet} from "react-router";
-import PLink from "../../components/PLink.jsx";
+import PLink from "../../components/atoms/PLink.jsx";
 import {useLayoutEffect, useState} from "react";
 import useWindowWidth from "../../hooks/useWindowWidth.js";
-import Logo from "../../components/Logo.jsx";
+import Logo from "../../components/molecules/Logo.jsx";
 
 const Layout = () => {
     const [showMenu, setShowMenu] = useState(false);

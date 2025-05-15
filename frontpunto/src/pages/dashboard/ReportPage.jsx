@@ -1,9 +1,9 @@
-import PageLayout from "../PageLayout.jsx";
-import {ProductsTable} from "../../../components/ProductsTable";
-import useOrderProducts from "../../../hooks/useOrderProducts.js";
+import PageLayout from "./PageLayout.jsx";
+import {ProductsTable} from "../../components/molecules/ProductsTable.jsx";
+import useOrderProducts from "../../hooks/useOrderProducts.js";
 import {useState} from "react";
-import DateInput from "../../../components/DateInput.jsx";
-import Title from "../../../components/Title.jsx";
+import DateInput from "../../components/atoms/DateInput.jsx";
+import Title from "../../components/atoms/Title.jsx";
 
 const toEpochStart = (date) =>
     Math.floor(new Date(date.getFullYear(), date.getMonth(),

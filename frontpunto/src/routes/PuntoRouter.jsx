@@ -1,13 +1,13 @@
 import {Navigate, Route, Routes} from "react-router";
-import Login from "./pages/Login.jsx";
-import PrivateRoute from "./components/PrivateRoute.jsx";
-import Layout from "./pages/dashboard/Layout.jsx";
-import VentasPage from "./pages/dashboard/ventas/VentasPage.jsx";
-import {ReportPage} from "./pages/dashboard/report/ReportPage";
-import NewOrderPage from "./pages/dashboard/neworder/NewOrderPage.jsx";
-import OrderPage from "./pages/dashboard/order/OrderPage.jsx";
-import useUserStore from "./store/useUserStore.jsx";
-import {Logout} from "./pages/Logout.jsx";
+import Login from "../pages/Login.jsx";
+import PrivateRoute from "./PrivateRoute.jsx";
+import Layout from "../pages/dashboard/Layout.jsx";
+import VentasPage from "../pages/dashboard/VentasPage.jsx";
+import {ReportPage} from "../pages/dashboard/ReportPage.jsx";
+import NewOrderPage from "../pages/dashboard/NewOrderPage.jsx";
+import OrderPage from "../pages/dashboard/OrderPage.jsx";
+import useUserStore from "../store/useUserStore.jsx";
+import {Logout} from "../pages/Logout.jsx";
 
 
 const PuntoRouter = () => {

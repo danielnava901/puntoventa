@@ -1,3 +1,5 @@
+import Text from "../atoms/Text.jsx";
+
 const CardProduct = ({product, onClickProduct}) => {
     return <div className="
         flex
@@ -15,10 +17,8 @@ const CardProduct = ({product, onClickProduct}) => {
         onClickProduct(product)
     }}
     >
-        <div>
-            <div>{product.name}</div>
-            <div>${product.unit_price}</div>
-        </div>
+        <Text className="font-bold">{product.name}</Text>
+        <Text className="text-sm">${product.unit_price}</Text>
     </div>
 }
 

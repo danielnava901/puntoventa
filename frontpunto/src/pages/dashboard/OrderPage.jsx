@@ -1,14 +1,14 @@
-import PageLayout from "../PageLayout.jsx";
+import PageLayout from "./PageLayout.jsx";
 import {useNavigate, useParams} from "react-router";
 import {useState} from "react";
-import {sender} from "../../../utils/sender.js";
-import useUserStore from "../../../store/useUserStore.jsx";
-import useOrder from "../../../hooks/useOrder.js";
-import ProductList from "../../../components/ProductList.jsx";
-import SimpleProductsTable from "../../../components/SimpleProductsTable.jsx";
-import consts from "../../../consts.js";
-import Title from "../../../components/Title.jsx";
-import {Button} from "../../../components/Button";
+import {sender} from "../../utils/sender.js";
+import useUserStore from "../../store/useUserStore.jsx";
+import useOrder from "../../hooks/useOrder.js";
+import ProductList from "../../components/organisms/ProductList.jsx";
+import SimpleProductsTable from "../../components/molecules/SimpleProductsTable.jsx";
+import consts from "../../consts.js";
+import Title from "../../components/atoms/Title.jsx";
+import {Button} from "../../components/atoms/Button.jsx";
 
 const OrderPage = () => {
     const {token} = useUserStore(state => state);

@@ -1,8 +1,8 @@
 import {useState} from "react";
-import useProducts from "../hooks/useProducts.js";
-import Input from "./Input.jsx";
-import {GridLayout} from "./GridLayout";
-import CardProduct from "./CardProduct.jsx";
+import useProducts from "../../hooks/useProducts.js";
+import Input from "../atoms/Input.jsx";
+import {GridLayout} from "../layouts/GridLayout.jsx";
+import CardProduct from "../molecules/CardProduct.jsx";
 import NewProductForm from "./NewProductForm.jsx";
 
 const ProductList = ({onClickProduct, extClass=""}) => {
@@ -16,6 +16,7 @@ const ProductList = ({onClickProduct, extClass=""}) => {
             input={search}
             sty="search"
             onChange={(input) => {setSearch(input)}} />
+
         <NewProductForm onAddProduct={onClickProduct} />
 
         <GridLayout>
