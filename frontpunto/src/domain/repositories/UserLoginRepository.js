@@ -1,11 +1,8 @@
-import {sender} from "../../utils/sender.js";
+import authApi from "../infra/api/authApi.js";
 
 export default class UserLoginRepository {
 
     async login(email) {
-        return await sender({
-            url: "http://localhost:8000/api/login",
-            data: {email: email}
-        });
+        return await authApi.login(email)
     }
 }

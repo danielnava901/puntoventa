@@ -6,7 +6,7 @@ import useUserStore from "../../../store/useUserStore.jsx";
 import useOrder from "../../../hooks/useOrder.js";
 import ProductList from "../../components/organisms/ProductList.jsx";
 import SimpleProductsTable from "../../components/molecules/SimpleProductsTable.jsx";
-import consts from "../../consts.js";
+import consts from "../../../constants/consts.js";
 import Title from "../../components/atoms/Title.jsx";
 import {Button} from "../../components/atoms/Button.jsx";
 import OrderRepository from "../../../domain/repositories/OrderRepository.js";

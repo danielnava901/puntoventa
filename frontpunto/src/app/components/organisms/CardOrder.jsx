@@ -1,4 +1,4 @@
-import consts from "../../consts.js";
+import consts from "../../../constants/consts.js";
 import OrderSummay from "../molecules/OrderSummay.jsx";
 import Text from "../atoms/Text.jsx";
 

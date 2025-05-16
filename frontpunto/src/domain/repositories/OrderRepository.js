@@ -1,49 +1,26 @@
-import {sender} from "../../utils/sender.js";
+import orderApi from "../infra/api/orderApi.js";
 
 export default class OrderRepository {
 
     async create(name, products, token) {
-        return await sender({
-            url: "http://localhost:8000/api/order/",
-            data: {
-                order_name: name,
-                products
-            },
-            token
-        });
+        return await orderApi.create(name, products, token)
     }
 
     async addProduct(orderId, product, token) {
-        let {id, quantity = 1} = product;
+        let {quantity = 1} = product;
 
-        return await sender({
-            url: `http://localhost:8000/api/order/${orderId}/products?quantity=${quantity}`,
-            token,
-            data: {productId: id}
-        });
+        return await orderApi.addProducts(orderId, quantity, token);
     }
 
     async close(orderId, token) {
-        await sender({
-            url: `http://localhost:8000/api/order/${orderId}`,
-            method: "PATCH",
-            token
-        });
+        await orderApi.close(orderId, token);
     }
 
     async getById(orderId, token) {
-        return await sender({
-            url: `http://localhost:8000/api/order/${orderId}`,
-            token,
-            method: "GET"
-        });
+        return await orderApi.getById(orderId, token);
     }
 
     async getAllOrders(token) {
-        return await sender({
-            url: `http://localhost:8000/api/order/`,
-            token,
-            method: "GET"
-        });
+        return await orderApi.getAll(token);
     }
 }
