@@ -14,10 +14,12 @@ import OrderRepository from "../../../domain/repositories/OrderRepository.js";
 import OrderService from "../../../domain/services/OrderService.js";
 import useSelectProducts from "../../../hooks/useSelectProducts.js";
 import ProductService from "../../../domain/services/ProductService.js";
+import ProductRepository from "../../../domain/repositories/ProductRepository.js";
 
 const oderRepository = new OrderRepository();
 const orderService = new OrderService(oderRepository);
-const productService = new ProductService();
+const productRepository = new ProductRepository();
+const productService = new ProductService(productRepository);
 
 const NewOrderPage = () => {
     const {token} = useUserStore(state => state);

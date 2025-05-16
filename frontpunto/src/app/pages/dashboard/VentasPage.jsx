@@ -1,6 +1,3 @@
-import {useEffect, useState} from "react";
-import {sender} from "../../../utils/sender.js";
-import useUserStore from "../../../store/useUserStore.jsx";
 import {useNavigate} from "react-router";
 import PageLayout from "../../components/layouts/PageLayout.jsx";
 import Title from "../../components/atoms/Title.jsx";
@@ -22,23 +19,18 @@ const VentasPage = () => {
                 navigate("/punto/nueva-orden")
             }}>Nueva orden</BigButton>
             <GridLayout>
-                {
-                    orders.length === 0 && (
-                        <p className="text-center text-gray-500">
-                            No hay órdenes registradas.
-                        </p>
-                    )
-                }
-                {
-                    orders.map(order => {
-                        return <CardOrder key={order.id}
-                                          order={order}
-                                          onClick={() => {
-                                              navigate(`/punto/orden/${order.id}`)
-                                          }}
-                        />
-                    })
-                }
+                {orders.length === 0 && (
+                    <p className="text-center text-gray-500">
+                        No hay órdenes registradas.
+                    </p>
+                )}
+                {orders.map(order => (
+                    <CardOrder
+                        key={order.id}
+                        order={order}
+                        onClick={() => navigate(`/punto/orden/${order.id}`)}
+                    />
+                ))}
             </GridLayout>
         </PageLayout>
     )

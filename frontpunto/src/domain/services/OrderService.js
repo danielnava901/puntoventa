@@ -16,6 +16,14 @@ export default class OrderService {
         return this.orderRepository.create(name, products, token);
     }
 
+    async getOrderById(orderId, token) {
+        return this.orderRepository.getById(orderId, token);
+    }
+
+    async getAllOrders(token) {
+        return this.orderRepository.getAllOrders(token)
+    }
+
     async addProductToOrder(orderId, product, token) {
         await this.orderRepository.addProduct(orderId, product, token)
     }

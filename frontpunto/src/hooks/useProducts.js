@@ -1,23 +1,22 @@
 import {useEffect, useState} from "react";
 import {sender} from "../utils/sender.js";
 import useUserStore from "../store/useUserStore.jsx";
+import ProductRepository from "../domain/repositories/ProductRepository.js";
+import ProductService from "../domain/services/ProductService.js";
+
+const productRepository = new ProductRepository();
+const productService = new ProductService(productRepository);
 
 const useProducts = (search) => {
     const {token} = useUserStore((state) =>  state);
     const [products, setProducts] = useState([])
     const getProducts = async () => {
-        const url = new URL("http://localhost:8000/api/product");
-        if(search.trim().length > 0)
-        url.searchParams.append("search", search);
-
-        const response = await sender({
-            url: url,
-            token,
-            method: "GET"
-        });
-
-
-        if(!!response) setProducts(response)
+        try {
+            const allProducts = await productService.getProducts(search, token);
+            if(!!allProducts) setProducts(allProducts)
+        }catch (e) {
+            throw new Error("Error de com: [getProducts]")
+        }
     }
 
     useEffect(() => {

@@ -1,5 +1,9 @@
 export default class ProductService {
 
+    constructor(productRepository) {
+        this.productRepository = productRepository;
+    }
+
     updateProductList(product, products) {
         const existingProduct = products.find(p => p.id === product.id);
         let updatedProducts;
@@ -30,5 +34,9 @@ export default class ProductService {
         }
 
         return updatedProducts;
+    }
+
+    async getProducts(search, token) {
+        return await this.productRepository.getAllProducts(search, token);
     }
 }

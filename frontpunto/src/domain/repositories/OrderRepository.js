@@ -30,4 +30,20 @@ export default class OrderRepository {
             token
         });
     }
+
+    async getById(orderId, token) {
+        return await sender({
+            url: `http://localhost:8000/api/order/${orderId}`,
+            token,
+            method: "GET"
+        });
+    }
+
+    async getAllOrders(token) {
+        return await sender({
+            url: `http://localhost:8000/api/order/`,
+            token,
+            method: "GET"
+        });
+    }
 }

@@ -4,13 +4,7 @@ import useOrderProducts from "../../../hooks/useOrderProducts.js";
 import {useState} from "react";
 import DateInput from "../../components/atoms/DateInput.jsx";
 import Title from "../../components/atoms/Title.jsx";
-
-const toEpochStart = (date) =>
-    Math.floor(new Date(date.getFullYear(), date.getMonth(),
-        date.getDate(), 0, 0, 0).getTime() / 1000);
-const toEpochEnd = (date) =>
-    Math.floor(new Date(date.getFullYear(), date.getMonth(),
-        date.getDate(), 23, 59, 59, 999).getTime() / 1000);
+import {toEpoch} from "../../../utils/dateUtil.js";
 
 
 export const ReportPage = () => {
@@ -18,11 +12,11 @@ export const ReportPage = () => {
     const [range, setRange] = useState({
         desde: today,
         hasta: today,
-        desdeEpoch: toEpochStart(today),
-        hastaEpoch: toEpochEnd(today),
+        desdeEpoch: toEpoch(today),
+        hastaEpoch: toEpoch(today, true),
     });
-    const {products} = useOrderProducts(range.desdeEpoch, range.hastaEpoch);
 
+    const {products} = useOrderProducts(range.desdeEpoch, range.hastaEpoch);
 
     return (
         <PageLayout showHeader={false}>
@@ -42,7 +36,7 @@ export const ReportPage = () => {
                             setRange(prev => ({
                                 ...prev,
                                 desde: date,
-                                desdeEpoch: toEpochStart(new Date(date))
+                                desdeEpoch: toEpoch(new Date(date))
                             }));
                         }} />
                 </div>
@@ -58,7 +52,7 @@ export const ReportPage = () => {
                             setRange(prev => ({
                                 ...prev,
                                 hasta: date,
-                                hastaEpoch: toEpochStart(new Date(date))
+                                hastaEpoch: toEpoch(new Date(date))
                             }));
                         }} />
                 </div>

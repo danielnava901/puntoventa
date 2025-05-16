@@ -35,7 +35,6 @@ const OrderPage = () => {
 
     if(!order) return <div>Cargando</div>
 
-
     return <PageLayout showHeader={true}
                        onBack={() => {navigate("/punto")}}
                        extraCls="h-screen">
