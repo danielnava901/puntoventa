@@ -42,9 +42,9 @@ const Login = () => {
                 setUser(null);
                 setIsAuthenticated(false);
             }
-        }catch (e) {
-            console.log("error", {e});
-            alert(e.message);
+        }catch (error) {
+            console.log({error: error.message});
+            alert(error.message);
         }
 
     }

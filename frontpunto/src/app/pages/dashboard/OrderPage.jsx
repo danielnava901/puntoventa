@@ -24,8 +24,12 @@ const OrderPage = () => {
     const navigate = useNavigate();
 
     const addProduct = async (product) => {
-        await orderService.addProductToOrder(orderId, product, token);
-        setTrigger(prev => prev + 1);
+        try {
+            await orderService.addProductToOrder(orderId, product, token);
+            setTrigger(prev => prev + 1);
+        }catch (error) {
+            console.log({error: error.message});
+        }
     }
 
     const onClickClose = async () => {

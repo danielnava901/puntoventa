@@ -15,7 +15,7 @@ const useProducts = (search) => {
             const allProducts = await productService.getProducts(search, token);
             if(!!allProducts) setProducts(allProducts)
         }catch (e) {
-            throw new Error("Error de com: [getProducts]")
+            console.log({error: error.message});
         }
     }
 

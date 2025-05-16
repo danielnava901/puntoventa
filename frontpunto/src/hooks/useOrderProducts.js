@@ -14,8 +14,8 @@ const useOrderProducts = (desde, hasta) => {
         try {
             const orderProducts = await orderProductService.orderProduct(desde, hasta, token);
             if(!!orderProducts) setProducts(orderProducts);
-        }catch (e) {
-            throw new Error("Error de comunicaciones [useOrderProducts]")
+        }catch (error) {
+            console.log(error.message);
         }
     }
 

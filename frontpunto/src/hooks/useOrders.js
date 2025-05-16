@@ -17,8 +17,8 @@ const useOrders = () => {
             setLoading(true)
             const orders = await orderService.getAllOrders(token);
             if(!!orders) setOrders(orders);
-        }catch (e) {
-            throw new Error("Error de comunicaciones [getOrders]")
+        }catch (error) {
+            console.log({error: error.message});
         }finally {
             setLoading(false);
         }
