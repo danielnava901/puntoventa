@@ -36,7 +36,11 @@ export default class ProductService {
         return updatedProducts;
     }
 
-    async getProducts(search, token) {
-        return await this.productRepository.getAllProducts(search, token);
+    async getProducts(search) {
+        return await this.productRepository.getAllProducts(search);
+    }
+
+    async create(product) {
+        return await this.productRepository.createProduct(product);
     }
 }

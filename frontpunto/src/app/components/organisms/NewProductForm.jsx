@@ -1,11 +1,14 @@
 import {useEffect, useState} from "react";
 import Modal from "../molecules/Modal.jsx";
 import Title from "../atoms/Title.jsx";
-import {sender} from "../../../utils/sender.js";
-import useUserStore from "../../../store/useUserStore.jsx";
+import ProductRepository from "../../../domain/repositories/ProductRepository.js";
+import ProductService from "../../../domain/services/ProductService.js";
+
+
+const productRepository = new ProductRepository();
+const productService = new ProductService(productRepository);
 
 export const NewProductForm = ({onAddProduct}) => {
-    const {token} = useUserStore(state => state);
     const initValue = {name: "", quantity: 1, price: 0.00, error: false};
     const [isOpen, setIsOpen] = useState(false);
     const [newProduct, setNewProduct] = useState(initValue);
@@ -21,12 +24,7 @@ export const NewProductForm = ({onAddProduct}) => {
             return;
         }
 
-        let response = await sender({
-            url: "http://localhost:8000/api/product/",
-            method: "POST",
-            data: newProduct,
-            token
-        });
+        let response = await productService.create(newProduct);
 
 
         if(!!response) onAddProduct(response);

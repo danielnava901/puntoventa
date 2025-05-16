@@ -7,7 +7,6 @@ import Logo from "../components/molecules/Logo.jsx";
 import UserLoginRepository from "../../domain/repositories/UserLoginRepository.js";
 import UserLoginService from "../../domain/services/UserLoginService.js";
 
-
 const clsContainer = "flex items-center w-full h-full flex-col md:flex-row";
 const clsLeftSide = "w-full md:w-1/2 bg-gray-800 h-[65px] md:h-full flex flex-col items-center justify-center gap-4";
 const clsRightSide = "w-full md:w-1/2 flex justify-center items-center flex-1";

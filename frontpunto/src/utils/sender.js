@@ -1,8 +1,10 @@
 import handleApiError from "./handleApiError.js";
+import useUserStore from "../store/useUserStore.jsx";
 
 
 const sender = async ({url, data = {}, token = null, method = "POST"}) => {
     try {
+        const {token} = useUserStore.getState();
         const headers = new Headers();
         headers.append("Content-Type", "application/json");
         if(!!token) headers.append("Authorization", `Bearer ${token}`);

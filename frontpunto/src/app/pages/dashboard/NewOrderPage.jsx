@@ -1,7 +1,6 @@
 import Input from "../../components/atoms/Input.jsx";
 import {useState} from "react";
 import {useNavigate} from "react-router";
-import useUserStore from "../../../store/useUserStore.jsx";
 import PageLayout from "../../components/layouts/PageLayout.jsx";
 import ProductList from "../../components/organisms/ProductList.jsx";
 import SimpleProductsTable from "../../components/molecules/SimpleProductsTable.jsx";
@@ -22,7 +21,6 @@ const productRepository = new ProductRepository();
 const productService = new ProductService(productRepository);
 
 const NewOrderPage = () => {
-    const {token} = useUserStore(state => state);
     const {width: windowWidth} = useWindowWidth();
     const {products, setProducts, totalUnitProducts} = useSelectProducts();
     const [showTable, setShowTable] = useState(false);
@@ -49,7 +47,7 @@ const NewOrderPage = () => {
     const onSubmit = async (ev) => {
         ev.preventDefault();
         try {
-            const order = await orderService.createOrder(comensal.value, products, token);
+            const order = await orderService.createOrder(comensal.value, products);
             redirectToOrderPage(order);
         }catch (e) {
             alert(e.message);

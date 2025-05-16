@@ -15,7 +15,7 @@ const useOrders = () => {
     const getOrdersData = async () => {
         try {
             setLoading(true)
-            const orders = await orderService.getAllOrders(token);
+            const orders = await orderService.getAllOrders();
             if(!!orders) setOrders(orders);
         }catch (error) {
             console.log({error: error.message});
@@ -25,7 +25,7 @@ const useOrders = () => {
     }
 
     useEffect(() => {
-        if(!!token) getOrdersData()
+        getOrdersData()
     }, [token])
 
     return {orders, loading};

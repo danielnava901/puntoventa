@@ -1,8 +1,6 @@
 import PageLayout from "../../components/layouts/PageLayout.jsx";
 import {useNavigate, useParams} from "react-router";
 import {useState} from "react";
-import {sender} from "../../../utils/sender.js";
-import useUserStore from "../../../store/useUserStore.jsx";
 import useOrder from "../../../hooks/useOrder.js";
 import ProductList from "../../components/organisms/ProductList.jsx";
 import SimpleProductsTable from "../../components/molecules/SimpleProductsTable.jsx";
@@ -16,7 +14,6 @@ const orderRepository = new OrderRepository()
 const orderService = new OrderService(orderRepository);
 
 const OrderPage = () => {
-    const {token} = useUserStore(state => state);
     const [trigger, setTrigger] = useState(0);
     const [showTable, setShowTable] = useState(false);
     const {orderId} = useParams();
@@ -25,7 +22,7 @@ const OrderPage = () => {
 
     const addProduct = async (product) => {
         try {
-            await orderService.addProductToOrder(orderId, product, token);
+            await orderService.addProductToOrder(orderId, product);
             setTrigger(prev => prev + 1);
         }catch (error) {
             console.log({error: error.message});

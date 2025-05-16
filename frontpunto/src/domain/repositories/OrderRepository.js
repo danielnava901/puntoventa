@@ -2,25 +2,25 @@ import orderApi from "../infra/api/orderApi.js";
 
 export default class OrderRepository {
 
-    async create(name, products, token) {
-        return await orderApi.create(name, products, token)
+    async create(name, products) {
+        return await orderApi.create(name, products)
     }
 
-    async addProduct(orderId, product, token) {
+    async addProduct(orderId, product) {
         let {quantity = 1} = product;
 
-        return await orderApi.addProducts(orderId, quantity, token);
+        return await orderApi.addProducts(orderId, quantity);
     }
 
-    async close(orderId, token) {
-        await orderApi.close(orderId, token);
+    async close(orderId) {
+        await orderApi.close(orderId);
     }
 
-    async getById(orderId, token) {
-        return await orderApi.getById(orderId, token);
+    async getById(orderId) {
+        return await orderApi.getById(orderId);
     }
 
-    async getAllOrders(token) {
-        return await orderApi.getAll(token);
+    async getAllOrders() {
+        return await orderApi.getAll();
     }
 }

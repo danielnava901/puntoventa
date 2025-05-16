@@ -1,4 +1,3 @@
-import {sender} from "../../utils/sender.js";
 
 export default class OrderService {
     constructor(oderRepository) {
@@ -9,23 +8,23 @@ export default class OrderService {
         return customerName.trim().length > 0
     }
 
-    async createOrder(name, products, token) {
+    async createOrder(name, products) {
         if(!this.isValidCustomerName(name)) {
             throw new Error("Ingrese el nombre del comensal");
         }
-        return this.orderRepository.create(name, products, token);
+        return this.orderRepository.create(name, products);
     }
 
-    async getOrderById(orderId, token) {
-        return this.orderRepository.getById(orderId, token);
+    async getOrderById(orderId) {
+        return this.orderRepository.getById(orderId);
     }
 
-    async getAllOrders(token) {
-        return this.orderRepository.getAllOrders(token)
+    async getAllOrders() {
+        return this.orderRepository.getAllOrders()
     }
 
-    async addProductToOrder(orderId, product, token) {
-        await this.orderRepository.addProduct(orderId, product, token)
+    async addProductToOrder(orderId, product) {
+        await this.orderRepository.addProduct(orderId, product)
     }
 
     async closeOrder(orderId) {
