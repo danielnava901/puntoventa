@@ -7,6 +7,7 @@ import {AuthGuard} from './presentation/gard/auth.guard';
 import {RedirectComponent} from './presentation/pages/redirect/redirect.component';
 import {LoginRedirectGuard} from './presentation/gard/login-redirect.guard';
 import {LogoutComponent} from './presentation/pages/logout/logout.component';
+import {ReportsComponent} from './presentation/pages/dashboard/reports/reports.component';
 
 export const routes: Routes = [
   { path: '', component: RedirectComponent },
@@ -17,7 +18,8 @@ export const routes: Routes = [
     component: DashboardComponent,
     canActivate: [AuthGuard],
     children: [
-      {path: "", component: VentasComponent}
+      {path: "", component: VentasComponent},
+      {path: "reportes", component: ReportsComponent}
     ]
   },
 ];
