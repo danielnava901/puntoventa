@@ -1,0 +1,10 @@
+<div class="w-full">
+  <label class="font-bold text-sm" [for]="name">{{name | titlecase}}</label>
+  <input-atom
+    [value]="value"
+    [placeholder]="name"
+    [id]="name"
+    [onChangeProp]="onChangeInput"
+    class="w-full"
+  ></input-atom>
+</div>

@@ -1,0 +1,9 @@
+<form class="w-8/12 h-[400px] flex flex-col gap-4 justify-center items-center">
+  <input-field
+    [value]="email"
+    [name]="'email'"
+    [onChange]="onChangeInput"
+    class="w-full"
+  />
+  <button-atom (onClick)="onSubmitForm()" [text]="'Entrar'" class="w-full" />
+</form>

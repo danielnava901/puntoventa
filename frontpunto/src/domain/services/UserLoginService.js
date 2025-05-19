@@ -8,7 +8,7 @@ export default class UserLoginService {
     }
 
     async execute(email) {
-        console.log("email", email)
+
         if(!this.isValidEmail(email)) {
             throw new Error("Correo inválido");
         }
