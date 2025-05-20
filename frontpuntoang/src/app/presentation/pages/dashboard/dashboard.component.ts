@@ -6,7 +6,10 @@ import {LeftMenuComponent} from '../../components/organisms/left-menu/left-menu.
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [RouterModule, DashboardTemplateComponent, LeftMenuComponent],
+  imports: [
+    RouterModule,
+    DashboardTemplateComponent,
+    LeftMenuComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })

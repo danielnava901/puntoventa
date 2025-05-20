@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import { Router } from '@angular/router';
 import {ScreenTemplate} from '../../components/templates/screen-template/screen-template.component';
 import {LoginFormComponent} from '../../components/organisms/login-form/login-form.component';
-import AuthRestRepositoryAdapter from '../../../core/adapters/auth-rest-repository-adapter';
 import AuthService from '../../../core/services/auth-service';
 
 @Component({
@@ -15,15 +14,17 @@ import AuthService from '../../../core/services/auth-service';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  private router = new Router();
-  private authService = new AuthService(new AuthRestRepositoryAdapter());
 
-  onSubmit = async({email} : any) => {
+
+
+  constructor(private router: Router, private authService : AuthService) {}
+
+  onSubmit = async({email} : {email: string}) => {
     try {
-      let authResponse = await this.authService.login(email);
+
+      let authResponse = await this.authService.login(email)
 
       if(authResponse !== null) {
-
         localStorage.setItem("auth", JSON.stringify(authResponse));
         await this.router.navigate(["/dashboard"]);
       }else {

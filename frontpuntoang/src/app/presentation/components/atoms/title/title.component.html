@@ -1,0 +1,9 @@
+<ng-container [ngSwitch]="level">
+  <span class="font-bold text-gray-800" >
+    <h1 *ngSwitchCase="1" [style]="{fontSize: '1.6rem', marginBottom: '1rem'}">{{content}}</h1>
+    <h2 *ngSwitchCase="2" [style]="{fontSize: '1.4rem', marginBottom: '1rem'}">{{content}}</h2>
+    <h3 *ngSwitchCase="3" [style]="{fontSize: '1.2rem', marginBottom: '1rem'}">{{content}}</h3>
+    <h4 *ngSwitchCase="4" [style]="{fontSize: '1rem', marginBottom: '1rem'}">{{content}}</h4>
+    <span *ngSwitchDefault>{{content}}</span> <!-- fallback -->
+  </span>
+</ng-container>

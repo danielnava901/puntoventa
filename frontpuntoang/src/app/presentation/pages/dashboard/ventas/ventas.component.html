@@ -1,3 +1,11 @@
 <page-template class="h-[100%] max-h-[100%]">
-  Ventas
+  <title-atom [level]="2" content="Ordenes"/>
+
+  <button-order
+    text="Nueva orden"
+    (onClick)="onClickCreate()"
+    class="flex w-[170px] h-[70px]"
+  />
+
+
 </page-template>
